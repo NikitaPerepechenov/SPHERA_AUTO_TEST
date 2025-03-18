@@ -31,7 +31,7 @@ class MainPage(BasePage):
         """ Вход в рандомный канал """
         try:
             logger.info("Выбор рандомного канала")
-            self.wait_elements(self.locators.ALL_CHANNELS)
+            self.visibility_of_element(self.locators.ALL_CHANNELS)
             channel = self.wait_elements(self.locators.ALL_CHANNELS)[1::]
             random_channel = random.choice(channel)
             logger.info(f"Выбран канал: {random_channel.text}")

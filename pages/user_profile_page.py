@@ -1,19 +1,13 @@
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-import logging
 from utils.logger import Logger
 from utils.user_profile_locators import LocatorsUserProfile
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 import random
-
-# Настройка логирования
-# logging.basicConfig(level=logging.INFO)
-# logger = logging.getLogger(__name__)
-
-# TODO: add import custom logger
+import time
 
 logger = Logger()
 
@@ -95,12 +89,14 @@ class UserProfile(BasePage):
         """ Редактирование поля 'Фамилия' """
         try:
             logger.info("Редактирование поля 'Фамилия'")
-
+            action = ActionChains(self.browser)
             last_name_field = self.wait_element(self.locators.LAST_NAME_FIELD)
+            
 
             logger.info("Поле 'Фамилия' не пустое. Очистка поля.")
-            last_name_field.click()
-            last_name_field.send_keys(Keys.COMMAND + "a" + Keys.BACKSPACE)   
+            action.double_click(last_name_field).perform()
+            last_name_field.send_keys(Keys.BACKSPACE)
+            
             logger.info("Поле 'Фамилия' успешно очищено.")
 
             logger.info(f"Заполнение поля 'Имя' значением: {last_name}")
@@ -118,10 +114,10 @@ class UserProfile(BasePage):
             logger.info("Редактирование поля 'Имя'")
 
             first_name_field = self.wait_element(self.locators.FIRST_NAME_FIELD)
-            
+            action = ActionChains(self.browser)
             logger.info("Поле 'Имя' не пустое. Очистка поля.")
-            first_name_field.click()
-            first_name_field.send_keys(Keys.COMMAND + "a" + Keys.BACKSPACE)      
+            action.double_click(first_name_field).perform()
+            first_name_field.send_keys(Keys.BACKSPACE)      
             logger.info("Поле 'Имя' успешно очищено.")
 
             logger.info(f"Заполнение поля 'Имя' значением: {first_name}")
@@ -138,9 +134,9 @@ class UserProfile(BasePage):
             logger.info("Редактирование поля 'Имя'")
 
             surname_field = self.wait_element(self.locators.SURNAME_FIELD)
-
+            action = ActionChains(self.browser)
             logger.info("Поле 'Имя' не пустое. Очистка поля.")
-            surname_field.send_keys(Keys.COMMAND + "a")  
+            action.double_click(surname_field).perform() 
             surname_field.send_keys(Keys.BACKSPACE)     
             logger.info("Поле 'Имя' успешно очищено.")
 
@@ -177,9 +173,10 @@ class UserProfile(BasePage):
             info_field = self.wait_elements(
             self.locators.INPUT_INFO
             )[0]
-
+            action = ActionChains(self.browser)
             info_field.click()
-            info_field.send_keys(Keys.COMMAND + "a" + Keys.BACKSPACE)
+            action.double_click(info_field).perform()
+            info_field.send_keys(Keys.BACKSPACE)
 
             self.wait_elements(
             self.locators.INPUT_INFO

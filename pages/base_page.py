@@ -6,9 +6,6 @@ class BasePage(object):
     def __init__(self, browser):
         self.browser = browser
         
-
-
-
     def refresh_page(self):
         self.browser.refresh() 
 
