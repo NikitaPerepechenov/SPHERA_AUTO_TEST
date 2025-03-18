@@ -1,14 +1,13 @@
-import json
 import pytest
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 @pytest.fixture(scope="session")
 def browser():
-    service = webdriver.ChromeService()
+    service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service)
     driver.get("https://app.staging.sphera.work/")
     driver.maximize_window()
-    yield driver  # Возврат драйвера тесту
-    # Завершение работы после всех тестов
+    yield driver
     driver.quit()
-
