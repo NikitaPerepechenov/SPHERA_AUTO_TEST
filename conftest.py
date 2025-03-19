@@ -25,7 +25,6 @@ def browser():
     driver.get("https://app.staging.sphera.work/")
     driver.maximize_window()
 
-    # Выполните авторизацию здесь, если это необходимо
     yield driver
 
     driver.quit()
