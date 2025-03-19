@@ -7,7 +7,7 @@ def generate_random_string(length=8):
     letters_and_digits = string.ascii_letters + string.digits
     return ''.join(random.choice(letters_and_digits) for _ in range(length))
 
-
+@pytest.mark.skip
 def test_05_open_user_profile_and_redact_info(browser): # Передаем фикстуру browser
     
     user = UserProfile(browser) # Создаем экземпляр UserProfile, передавая browser

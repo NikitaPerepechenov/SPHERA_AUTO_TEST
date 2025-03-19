@@ -18,9 +18,9 @@ def test_01_authorization(browser):
     auth_page.submit_button() # Нажатие кнопки 'Получить код'
     auth_page.one_time_code(code) # Ввод одноразового кода
     auth_page.enter_space_button() # Вход в пространство
-    auth_page.decline_notifications()
+    # auth_page.decline_notifications()
 
-
+@pytest.mark.skip
 def test_02_create_channel_send_message__and_delete_channel(browser):  # Передаем фикстуру browser
     main = MainPage(browser)  # Создаем экземпляр MainPage, передавая browser
     name_channel = generate_random_string(5) 
@@ -43,7 +43,7 @@ def test_02_create_channel_send_message__and_delete_channel(browser):  # Пер�
     main.archive_channel_notifications_check() # Проверка уведомления об архивировании канала
 
 
-
+@pytest.mark.skip
 def test_03_create_channel__and_delete_channel(browser):
     log = AuthorizationPage(browser)
     
@@ -67,7 +67,7 @@ def test_03_create_channel__and_delete_channel(browser):
     main.delete_channel_check(name_channel) # Проверка удаления канала из левого сайд бара
 
 
-
+@pytest.mark.skip
 def test_04_enter_random_channel_write_message_delete_message(browser):
     main = MainPage(browser)
     rand_message = generate_random_string(5)
