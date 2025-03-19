@@ -18,7 +18,7 @@ def test_01_authorization(browser):
     auth_page.submit_button() # Нажатие кнопки 'Получить код'
     auth_page.one_time_code(code) # Ввод одноразового кода
     auth_page.enter_space_button() # Вход в пространство
-    # auth_page.decline_notifications()
+    auth_page.decline_notifications()
 
 
 def test_02_create_channel_send_message__and_delete_channel(browser):  # Передаем фикстуру browser
