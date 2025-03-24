@@ -23,7 +23,7 @@ class LocatorsMainPage:
 
 
     MESSAGE_INPUT = (By.CLASS_NAME, "ql-editor")
-    SEND_MESSAGE_BUTTON = (By.XPATH, '//button[text()="Отправить"]')
+    SEND_MESSAGE_BUTTON = (By.CLASS_NAME, 'send-button__active')
     MESSAGE_TEXT = (By.CLASS_NAME, "message-text")
 
     ALL_MESSAGES_IN_CHANNEL = (By.CSS_SELECTOR, ".message-card > .message-text > p")
