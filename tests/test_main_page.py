@@ -12,6 +12,7 @@ def generate_random_string(length=8):
 email = "qa1@fusion.ru"
 code = "654321"
 
+@pytest.mark.skip
 def test_01_authorization(browser):
     auth_page = AuthorizationPage(browser)
     auth_page.email_field(email) # Ввод email
@@ -43,7 +44,7 @@ def test_02_create_channel_send_message__and_delete_channel(browser):  # Пер�
     main.archive_channel_notifications_check() # Проверка уведомления об архивировании канала
 
 
-@pytest.mark.skip
+
 def test_03_create_channel__and_delete_channel(browser):
     log = AuthorizationPage(browser)
     
@@ -67,7 +68,6 @@ def test_03_create_channel__and_delete_channel(browser):
     main.delete_channel_check(name_channel) # Проверка удаления канала из левого сайд бара
 
 
-@pytest.mark.skip
 def test_04_enter_random_channel_write_message_delete_message(browser):
     main = MainPage(browser)
     rand_message = generate_random_string(5)

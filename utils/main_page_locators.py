@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 
 
 class LocatorsMainPage:
-    CREATE_CHANNEL_BUTTON = (By.CSS_SELECTOR, 'button[aria-label="Создать канал"]')
+    CREATE_CHANNEL_BUTTON = (By.CLASS_NAME, 'sphr-button__icon') # [1]
     CHANNEL_NAME_FIELD = (By.ID, "name")
     CHANNEL_INFO_FIELD = (By.ID, "description")
     CONTINUE_BUTTON = (By.XPATH, "//button[text()='Продолжить']")
