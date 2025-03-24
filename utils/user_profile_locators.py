@@ -2,8 +2,9 @@ from selenium.webdriver.common.by import By
 
 
 class LocatorsUserProfile:
-    PROFILE_MODAL = (By. CLASS_NAME, "MuiAvatar-root")
-    USER_PROFILE_SETTINGS = (By. CLASS_NAME, "item-title")
+    PROFILE_MODAL = (By. CSS_SELECTOR, "button.sc-itMJkM.bYZPaI") # [1]
+    PROFILE_MODAL_WAIT = (By. CLASS_NAME, "sc-kLKKgF.dLFUSS")
+    USER_PROFILE_SETTINGS = (By. CLASS_NAME, "menu-item-link") 
 
     REDACT_USER_INFO = (By. CLASS_NAME, "cursor-pointer")
     LAST_NAME_FIELD = (By.NAME, "lastName")

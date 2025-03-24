@@ -9,6 +9,9 @@ class BasePage(object):
     def refresh_page(self):
         self.browser.refresh() 
 
+    def execute_script(self):
+        self.browser.execute_script
+
 
     def wait_element(self, locator):
         """Ожидание появления элемента на странице."""

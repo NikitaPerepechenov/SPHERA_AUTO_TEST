@@ -2,6 +2,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from utils.logger import Logger
 from utils.user_profile_locators import LocatorsUserProfile
+from utils.main_page_locators import LocatorsMainPage
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -19,6 +20,7 @@ class UserProfile(BasePage):
         self.browser = browser
         self.wait = WebDriverWait(browser, 10)
         self.locators = LocatorsUserProfile
+        self.loc = LocatorsMainPage
         super(UserProfile, self).__init__(browser)
 
 
@@ -46,17 +48,21 @@ class UserProfile(BasePage):
             raise
 
     def open_user_profile_modal_window(self):
-        """ Нажатие по аватару пользователя в футере приложения """
+        """ Нажатие по аватару пользователя в хедере приложения """
         
         try:
-            logger.info("Нажатие по аватару пользователя в футере приложения")
+            logger.info("Нажатие по аватару пользователя в хедере приложения")
             self.visibility_of_elements(
             self.locators.PROFILE_MODAL
-            )[0].click()
+            )[1].click()
             logger.info("Успешное нажатие по аватару пользователя")
+            logger.info('Ожидание появления модального окна')
+            self.visibility_of_element(self.locators.PROFILE_MODAL_WAIT)
+            logger.info(' Модальное окно успешно открыто')
         except Exception as e:
-            logger.error(f"Не удалось нажать по аватару пользователя в футере приложения {e}")
+            logger.error(f"Не удалось нажать по аватару пользователя в хедере приложения {e}")
             raise
+
 
     def open_user_settings_in_modal_window(self):
         """ Нажатие кнопкни 

@@ -1,42 +1,42 @@
 [
     {
-      "domain": ".staging.sphera.work",
-      "expiry": 1773490946,
+      "domain": ".dev.sphera.work",
+      "expiry": 1774338042,
       "httpOnly": false,
-      "name": "sphera-staging__refreshToken",
+      "name": "sphera-dev__refreshToken",
       "path": "/",
       "sameSite": "Lax",
       "secure": false,
-      "value": "%22eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE1NiwiY29tcGFueUlkIjo3NiwiaWF0IjoxNzQxOTU0OTQ2LCJleHAiOjE3NDI4MTg5NDZ9.w7WLV-RuNV1oN1Q0dcuFvjZHoyrgZtsC0DXNZ6XMy2Q%22"
+      "value": "%22eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE1NiwiY29tcGFueUlkIjo3NiwiaWF0IjoxNzQyODAyMDQ0LCJleHAiOjE3NDM2NjYwNDR9.4nd4c2Hu01RY6mSNFqMBjn494se7nhfqVcNdOhobpwg%22"
     },
     {
-      "domain": ".staging.sphera.work",
-      "expiry": 1776514947,
+      "domain": ".dev.sphera.work",
+      "expiry": 1777362058,
       "httpOnly": false,
-      "name": "sphera-staging__checkedAccounts",
+      "name": "sphera-dev__checkedAccounts",
       "path": "/",
       "sameSite": "Lax",
       "secure": false,
       "value": "[76]"
     },
     {
-      "domain": ".staging.sphera.work",
-      "expiry": 1773490946,
+      "domain": ".dev.sphera.work",
+      "expiry": 1774338042,
       "httpOnly": false,
-      "name": "sphera-staging__authToken",
+      "name": "sphera-dev__authToken",
       "path": "/",
       "sameSite": "Lax",
       "secure": false,
-      "value": "%22eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE1NiwiY29tcGFueUlkIjo3NiwiaWF0IjoxNzQxOTU0OTQ2LCJleHAiOjE3NDE5NTUyNDZ9.Vq_H7nX2n5cUY0nhqFSUsGHV3BZEXc9mYuEKW-VtPc8%22"
+      "value": "%22eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE1NiwiY29tcGFueUlkIjo3NiwiaWF0IjoxNzQyODAyMDQ0LCJleHAiOjE3NDI4MDIzNDR9.qu3RXIXGT7hECsihZIqBgeCE3Fh49wMK3hJRfblbB2k%22"
     },
     {
-      "domain": ".staging.sphera.work",
-      "expiry": 1776514947,
+      "domain": ".dev.sphera.work",
+      "expiry": 1777362058,
       "httpOnly": false,
-      "name": "sphera-staging__deviceId",
+      "name": "sphera-dev__deviceId",
       "path": "/",
       "sameSite": "Lax",
       "secure": false,
-      "value": "%22ccd63d82-005f-42f7-92c4-f1c59e6e0565%22"
+      "value": "%22ef545263-7263-4f90-8b7e-74b7eadbb00c%22"
     }
   ]

@@ -6,6 +6,8 @@ import random
 from utils.main_page_locators import LocatorsMainPage
 from utils.logger import Logger
 from pages.base_page import BasePage
+from selenium.webdriver.common.keys import Keys
+import time
 
 
 logger = Logger()
@@ -32,7 +34,7 @@ class MainPage(BasePage):
         try:
             logger.info("Выбор рандомного канала")
             self.visibility_of_element(self.locators.ALL_CHANNELS)
-            channel = self.wait_elements(self.locators.ALL_CHANNELS)[1::]
+            channel = self.wait_elements(self.locators.ALL_CHANNELS)[::1]
             random_channel = random.choice(channel)
             logger.info(f"Выбран канал: {random_channel.text}")
             random_channel.click()
@@ -44,9 +46,9 @@ class MainPage(BasePage):
     def create_channel_button(self):
         try:
             logger.info("Нажатие кнопки 'Создать канал'")
-            create_channel_button = self.element_to_be_clickable(
+            create_channel_button = self.visibility_of_elements(
             self.locators.CREATE_CHANNEL_BUTTON
-            )
+            )[1]
             create_channel_button.click()
             logger.info("Кнопка 'Создать канал' нажата")
         except Exception as e:
@@ -145,11 +147,16 @@ class MainPage(BasePage):
                 self.locators.DELETE_BUTTON
             )
             delete_button.click()
+            logger.info("Ожидания появления модального окна с подтверждением удаления")
+            self.visibility_of_elements(
+                ((By. CLASS_NAME, "MuiDialog-paperFullWidth"))
+            )[-1]
             logger.info(f"Подтверждение удаления канала")
             confirm_delete_button = self.element_to_be_clickable(
                 self.locators.CONFIRM_DELETE_BUTTON
             )
             confirm_delete_button.click()
+            time.sleep(1)
             logger.info("Канал успешно удален")
         except Exception as e:
             logger.error(f"Не удалось удалить канал: {e}")
@@ -185,9 +192,8 @@ class MainPage(BasePage):
         """Проверка удаления канала"""
         logger.info(f"Проверка удаления канала: {name_channel}")
         try:
-            self.refresh_page()
             
-            channel_list = self.wait_elements((By.CLASS_NAME, "channel-name"))
+            channel_list = self.wait_elements(self.locators.CHANNELS_LIST)
 
             # Проверяем каждый канал
             for channel in channel_list:
@@ -200,6 +206,48 @@ class MainPage(BasePage):
         except Exception as e:
             logger.error(f"Не удалось проверить удаление канала: {name_channel}, {e}")
 
+    def button_all_archive_channels(self):
+        """ Просмотр всех архивных каналов  """
+        try:
+            logger.info("Нажатие по тоглу с тремя точками")
+            self.visibility_of_elements(
+                (self.locators.KEBAB_MENU)
+            )[0].click()
+            logger.info("Успешное нажатие по тоглу с тремя точками")
+
+            logger.info("Просмотр всех архивных каналов")
+            self.visibility_of_elements(
+                (self.locators.ALL_ARCHIVE_CHANNELS)
+            )[1].click()
+            
+            
+            logger.info("Успешное нажатие по кнопке 'Архив'")
+        except Exception as e:
+            logger.error(f"Не удалось нажать по кнопке 'Архив': {e}")
+
+
+    def back(self):
+        """Стрелочка назад"""
+        self.visibility_of_element(
+            self.locators.BACK_ARROW
+        )
+        self.element_to_be_clickable(
+            self.locators.BACK_ARROW
+        ).click()
+
+
+    def delete_channel_notifications_check(self):
+        """Проверка уведомления об удалении канала"""
+        logger.info("Проверка уведомления об удалении канала")
+        try:
+            check = self.visibility_of_element(self.locators.DELETE_CONFIRMATION_MESSAGE)
+            assert check.text == "Канал удален", ">>> Не удалось проверить уведомление об удалении канала"
+            logger.info("Уведомление об удалении канала успешно проверено")
+            
+        except Exception as e:
+            
+            logger.error(f"Не удалось проверить уведомление об удаление канала: {e}")
+
     def archive_channel_notifications_check(self):
         """Проверка уведомления об архивировании канала"""
         try:    
@@ -207,15 +255,57 @@ class MainPage(BasePage):
             check = self.visibility_of_element(self.locators.DELETE_CONFIRMATION_MESSAGE)
             assert check.text == "Изменения сохранены", ">>> Не удалось проверить архивирование канала"
             logger.info("Уведомление об архивировании канала успешно проверено")
-            # self.invis_of_element(self.locators.DELETE_CONFIRMATION_MESSAGE)
+            self.invis_of_element(self.locators.DELETE_CONFIRMATION_MESSAGE)
         except Exception as e:
             logger.error(f"Не удалось проверить уведомление об архивировании канала: {e}")
-    
-    def Waiting_for_modal_window_to_close(self):
+
+    def archive_channel_check(self, name_channel):
+        """Проверка всех Архивных каналов"""
+        logger.info(f"Проверка присутствия канала: {name_channel} в Архиве")
+        try:
+            
+            channel_list = self.visibility_of_elements(self.locators.CHANNELS_LIST)
+            
+            
+            for channel in channel_list:
+                if channel.text == name_channel:
+                    logger.info(f"Канал {name_channel} найден в Архиве")
+                    return  
+            
+            logger.error(f"Канал {name_channel} отсутствует в Архиве")
+
+        except Exception as e:
+            logger.error(f"Не удалось проверить архивирование канала: {name_channel}, {e}")
+
+
+    def check_edit_message(self, edit_message):
+            try:
+                logger.info("Проверка отредактированного сообщения")
+                messages = self.visibility_of_elements(
+                    ((By.CSS_SELECTOR, "div > .message-text"))
+                )
+                
+                message = messages[-1]
+                assert message.text == edit_message, "<<<<<<<<< edited message, error >>>>>>>>>>"
+                logger.info("Проверка успешна")
+            except Exception as e:
+                logger.error(f"Не удалось проверить отредактированное сообщение {e}")   
+
+
+
+
+    def waiting_for_modal_window_to_close(self):
         """ Ожидание закрытия модального окна """
         self.invis_of_element(
                 self.locators.MODAL_WINDOW
         )
+
+    def waiting_notifications_delete_close(self):
+        """ Ожидание закрытия модального окна удаления """
+        self.invis_of_element(
+            self.locators.DELETE_CONFIRMATION_MESSAGE
+        )
+
 
 
     def write_a_message(self, rand_message):
@@ -229,6 +319,116 @@ class MainPage(BasePage):
             logger.info("Сообщение введено")
         except Exception as e:
             logger.error(f"Не удалось отправить сообщение: {rand_message},  {e}")
+
+
+
+    def write_a_wessage_with_link(self):
+        """ Написание сообщения с ссылкой в тексте """
+        try:
+            logger.info("Отправка сообщения с ссылкой")
+            self.visibility_of_element(
+                self.locators.MESSAGE_INPUT
+            ).send_keys("https://xn--80abh7bk0c.xn--p1ai/quote/432352")
+            self.send_message()
+            logger.info("Сообщение со ссылкой отправлено")
+            messages = self.visibility_of_elements(
+                self.locators.LAST_MESSAGE
+            )
+
+            message = messages[-1] # Выбор последнего сообщения
+            action = ActionChains(self.browser)
+            action.move_to_element(message).perform()
+
+            self.visibility_of_element(
+                (self.locators.LINKS_PREVIEV_MESSAGE)
+            )
+            logger.info('Превью ссылки отображается в сообщении')
+        except Exception as e:
+            logger.error(f"Не удалось проверить отображение линка в сообщении {e}") 
+
+
+    def edit_last_message(self, edit_message):
+        """Редактирование последнего отправленного сообщения"""
+        try:
+            logger.info("Выбор последнего сообщения в чате для редактирования")
+            messages = self.visibility_of_elements(self.locators.LAST_MESSAGE)
+            if not messages:
+                raise Exception("Не найдено сообщений для редактирования")
+            
+            message = messages[-1]  # Выбор последнего сообщения
+
+            action = ActionChains(self.browser)
+            logger.info("Навод курсора на последнее сообщение")
+            action.move_to_element(message).pause(1).perform()
+            
+            logger.info("Ожидание кнопки меню сообщения")
+            self.wait_elements(self.locators.MESSAGE_MENU),
+            message="Меню сообщения не появилось" 
+            
+            logger.info("Нажатие 'Редактировать сообщение'")
+            edit_button = self.wait_elements(self.locators.EDIT_MESSAGE)[-1]
+            edit_button.click()
+
+            logger.info("Ожидание модального окна редактирования")
+            self.wait.until(
+                EC.visibility_of_element_located(self.locators.EDIT_MESSAGE_MODAL),
+                message="Модальное окно не появилось"
+            )
+
+            logger.info("Очистка поля ввода")
+            write_message = self.visibility_of_element(self.locators.MESSAGE_FIELD)
+            write_message.clear()  # Очищаем поле
+            
+            logger.info("Ввод нового текста")
+            write_message.send_keys(edit_message)
+            logger.info("Сообщение отредактировано")
+
+        except Exception as e:
+            logger.error(f"Ошибка редактирования сообщения: {e}")
+            raise
+
+
+
+    def reply_message(self, rand_reply):
+        """ Ответ на сообщение """
+        try:
+            logger.info("Ответ на сообщение")
+            messages = self.visibility_of_elements(
+                self.locators.LAST_MESSAGE
+            )        
+            message = messages[-1] # Выбор последнего сообщения
+
+            action = ActionChains(self.browser)
+            action.move_to_element(message).perform()
+
+            reply_message_button = self.wait_elements(
+                self.locators.REPLY_MESSAGE
+            )[-1]
+            logger.info("Нажатие по кнопке 'ответить на сообщение'")
+            action.click(reply_message_button).perform()
+            logger.info("Успешное нажатие по кнопке 'ответить на сообщение'")
+
+            logger.info("Ожидание появления модального окна ответа на сообщения над полем ввода")
+            self.visibility_of_element(self.locators.MODAL_REPLY)
+            logger.info("Модальное окно успешно появилось")
+
+            self.visibility_of_element(self.locators.MESSAGE_INPUT)
+            logger.info('Ввод ответа на сообщение в поле ввода')
+
+            self.element_to_be_clickable(
+                self.locators.MESSAGE_INPUT
+            ).send_keys(rand_reply)
+        
+        except Exception as e:
+            logger.error(f"Ошибка ответа на сообщение {e}")
+            raise
+
+    def check_reply_message(self, rand_reply):
+        logger.info('Проверка появления ответа на сообщение')
+        self.visibility_of_elements(
+            ((By. CLASS_NAME, "sc-eVZGIO.kgVmpG"))
+        )[-1]
+        logger.info('Успешное появления ответа на сообщение')
 
 
     def send_message(self):
@@ -249,18 +449,19 @@ class MainPage(BasePage):
         """ Кнопки действий последнего сообщения в чате """
         try:
             logger.info(f"Наведение курсора на последнее сообщение")
-            messages = self.visibility_of_elements(
-                (By.CSS_SELECTOR, "div > .message-text"))
+            messages = self.wait_elements(
+                self.locators.LAST_MESSAGE
+            )
             
             message = messages[-1] # Выбор последнего сообщения
 
-            logger.info("Наведение курсора на сообщение")
             action = ActionChains(self.browser)
+            logger.info("Навод курсора на последнее сообщение")
             action.move_to_element(message).perform()
-
-            self.wait_elements(
-               self.locators.MESSAGE_MENU
-            )[-1]
+            
+            logger.info("Ожидание кнопки меню сообщения")
+            self.wait_elements(self.locators.MESSAGE_MENU),
+            message="Меню сообщения не появилось" 
 
             logger.info("Нажатие кнопки 'Другие действия'")
             self.wait_elements(
@@ -272,10 +473,21 @@ class MainPage(BasePage):
                 self.locators.DELETE_MESSAGE
             )[-1].click()
 
+            wait_modal = self.visibility_of_element(
+                ((By. CLASS_NAME, "MuiDialog-paperFullWidth"))
+            )
+
             logger.info("Подтверждение удаления сообщения")
-            self.visibility_of_element(
+            self.element_to_be_clickable(
                 self.locators.CONFIRM_DELETE_MESSAGE
             ).click()
+            logger.info("Ожидание появления карточки с удаленным сообщением")
+            self.visibility_of_elements(
+                ((By. CLASS_NAME, "message__message-deleted"))
+            )
+            logger.info("Карточка с удаленным сообщением появилась")
+
+
         except Exception as e:
             logger.error(f"Не удалось удалить сообщение: {e}")
 
@@ -327,7 +539,7 @@ class MainPage(BasePage):
         """Проверка удаления сообщения"""
         try:
             elements = self.wait_elements(
-                (By.CSS_SELECTOR, ".message-card > .message-text > p"))
+                (By.CLASS_NAME, "message-text"))
             
             found = False
             # Проверка, что сообщение больше не существует
@@ -344,3 +556,17 @@ class MainPage(BasePage):
             logger.error(f"Не удалось проверить удаление сообщения: {e}")
             raise
 
+
+    def decline_notifications(self):
+        """ Ожидание и нажатие кнопки 'Отклонить уведомления' """
+        self.visibility_of_element(self.locators.MODAL_NOTIFICATIONS)
+        try:
+                # logger.info("Ожидание появления модального окна")
+            
+            logger.info("Появилось окно с уведомлениями")
+            logger.info("Нажатие кнопки 'Отклонить уведомления'")                
+            self.element_to_be_clickable(self.locators.DECLINE_NOTIFICATIONS_BUTTON
+            ).click()
+            logger.info("Кнопка 'Отклонить уведомления' нажата")
+        except Exception as e:
+            logger.error(f"Не удалось нажать кнопку 'Отклонить уведомления': {e}")
