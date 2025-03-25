@@ -28,7 +28,7 @@ def test_02_create_channel_write_message_delete_channel(browser):  # Перед�
     info_channel = generate_random_string(5) 
     rand_message = generate_random_string(5)
 
-    main.decline_notifications()
+    main.decline_notifications() 
     main.create_channel_button() # Нажатие кнопки 'Создать канал'
     main.enter_name_channel(name_channel) # Ввод названия канала
     main.channel_info(info_channel) # Ввод описания канала
@@ -64,30 +64,33 @@ def test_03_create_channel_and_archive_channel(browser):
     main.settings_tab_in_modal_window() # вкладка настройки в модальном окне
     main.archive_channel() # Архивирование канала
     main.archive_channel_notifications_check() # Проверка уведомления об архивировании канала
-    main.button_all_archive_channels()
-    main.archive_channel_check(name_channel)
-    main.back()
+    main.button_all_archive_channels() # Открытие вкладки Архив 
+    main.archive_channel_check(name_channel) # Проверка заархивированного канала 
+    main.back() 
  
-    
-
-@pytest.mark.s
+  
 def test_04_enter_random_channel_write_message_edit_reply_and_delete_message(browser):
     main = MainPage(browser)
     rand_message = generate_random_string(5)
     edit_message = generate_random_string(5)
     rand_reply = generate_random_string(5)
+    disc_message = generate_random_string(5)
 
     main.enter_in_random_channel() # Вход в рандомный канал
+   
     main.write_a_message(rand_message) # Ввод сообщения в поле ввода
-    
     main.send_message() # Отправка сообщения кликом по кнопке 'Отправить'
     main.edit_last_message(edit_message) # Редактирования последнего сообщения в чате
     main.send_message() # Отправка отредактированного сообщения
     main.check_edit_message(edit_message) # Проверка отредактированного текста
-    # main.reply_message(rand_reply) # Ответ на сообщение 
-    # main.send_message()
-    # main.check_reply_message(rand_reply)
+    
+    main.reply_message(rand_reply) # Ответ на сообщение 
+    main.send_message()
+    main.check_reply_message()
+
+    main.other_actions() # Нажатие кнопки другие действия (сообщения)
     main.delete_message() # Удаление сообщения 
     main.message_deletion_check(rand_message) # Проверка удаления сообщения 
     
-    main.write_a_wessage_with_link()
+    main.open_discussions_and_write_message(disc_message) # Открытие обсуждения
+    main.write_a_wessage_with_link() # Отправка сообщения с линком 

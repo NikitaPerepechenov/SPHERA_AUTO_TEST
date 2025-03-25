@@ -27,20 +27,22 @@ class MainPage(BasePage):
         super(MainPage, self).__init__(browser)
 
 
-
-
     def enter_in_random_channel(self):
-        """ Вход в рандомный канал """
+        """Вход в случайный канал """
         try:
-            logger.info("Выбор рандомного канала")
-            self.visibility_of_element(self.locators.ALL_CHANNELS)
-            channel = self.wait_elements(self.locators.ALL_CHANNELS)[::1]
-            random_channel = random.choice(channel)
-            logger.info(f"Выбран канал: {random_channel.text}")
-            random_channel.click()
-            logger.info(f"Вход в канал {random_channel.text}")
+            logger.info("Выбор канала")
+            channels = self.wait_elements(self.locators.ALL_CHANNELS)
+
+            while True:
+                channel = random.choice(channels)
+                if channel.text.strip() != "Обсуждения":
+                    channel.click()
+                    logger.info(f"Выбран канал: {channel.text.strip()}")
+                    break
+                    
         except Exception as e:
             logger.error(f"Не удалось выбрать канал: {e}")
+            raise
         
             
     def create_channel_button(self):
@@ -325,6 +327,7 @@ class MainPage(BasePage):
     def write_a_wessage_with_link(self):
         """ Написание сообщения с ссылкой в тексте """
         try:
+            
             logger.info("Отправка сообщения с ссылкой")
             self.visibility_of_element(
                 self.locators.MESSAGE_INPUT
@@ -336,6 +339,7 @@ class MainPage(BasePage):
             )
 
             message = messages[-1] # Выбор последнего сообщения
+            
             action = ActionChains(self.browser)
             action.move_to_element(message).perform()
 
@@ -350,13 +354,14 @@ class MainPage(BasePage):
     def edit_last_message(self, edit_message):
         """Редактирование последнего отправленного сообщения"""
         try:
+            
             logger.info("Выбор последнего сообщения в чате для редактирования")
             messages = self.visibility_of_elements(self.locators.LAST_MESSAGE)
             if not messages:
                 raise Exception("Не найдено сообщений для редактирования")
             
             message = messages[-1]  # Выбор последнего сообщения
-
+           
             action = ActionChains(self.browser)
             logger.info("Навод курсора на последнее сообщение")
             action.move_to_element(message).pause(1).perform()
@@ -392,12 +397,13 @@ class MainPage(BasePage):
     def reply_message(self, rand_reply):
         """ Ответ на сообщение """
         try:
+            self.scroll_chat_to_bottom()
             logger.info("Ответ на сообщение")
             messages = self.visibility_of_elements(
                 self.locators.LAST_MESSAGE
             )        
             message = messages[-1] # Выбор последнего сообщения
-
+            
             action = ActionChains(self.browser)
             action.move_to_element(message).perform()
 
@@ -423,18 +429,17 @@ class MainPage(BasePage):
             logger.error(f"Ошибка ответа на сообщение {e}")
             raise
 
-    def check_reply_message(self, rand_reply):
+    def check_reply_message(self):
         logger.info('Проверка появления ответа на сообщение')
         self.visibility_of_elements(
             ((By. CLASS_NAME, "sc-eVZGIO.kgVmpG"))
         )[-1]
         logger.info('Успешное появления ответа на сообщение')
+        self.scroll_chat_to_bottom()
 
 
     def send_message(self):
-        """
-        Кнопка отправки сообщения
-        """
+        """ Кнопка отправки сообщения """
         try:
             logger.info("Нажатие кнопки 'Отправить сообщение'")
             send_button = self.element_to_be_clickable(
@@ -445,51 +450,143 @@ class MainPage(BasePage):
         except Exception as e:
             logger.error(f"Сообщение не отправлено")
 
+    def other_actions(self, max_attempts=3):
+        """Кнопки действий для сообщений с попытками для разных сообщений"""
+        self.scroll_chat_to_bottom()
+        
+        for attempt in range(max_attempts):
+            try:
+                logger.info(f"Попытка {attempt + 1} из {max_attempts}")
+            
+                messages = self.wait_elements(self.locators.LAST_MESSAGE)
+                if not messages:
+                    raise Exception("Не найдено сообщений в чате")
+                
+                message_idx = -1 - attempt
+                if abs(message_idx) > len(messages):
+                    message_idx = -1  
+                    
+                message = messages[message_idx]
+                logger.info(f"Выбрано сообщение {len(messages) + message_idx + 1} из {len(messages)}")
+                
+               
+                self.scroll_chat_to_bottom()
+                action = ActionChains(self.browser)
+                action.move_to_element(message).pause(1).perform()
+                
+                other_buttons = self.wait_elements(self.locators.OTHER_ACTIONS)
+                if other_buttons:
+                    try:
+                        other_buttons[-1].click()
+                        logger.info("Меню действий успешно открыто")
+                        return True
+                    except Exception as btn_error:
+                        logger.error(f"Ошибка клика: {str(btn_error)}. Пробуем следующее сообщение...")
+                        continue
+                
+            except Exception as e:
+                logger.error(f"Ошибка в попытке {attempt + 1}: {str(e)}")
+                if attempt == max_attempts - 1:
+                    raise Exception(f"Не удалось выполнить действие после {max_attempts} попыток")
+                continue
+        return False
+
+
+
     def delete_message(self):
-        """ Кнопки действий последнего сообщения в чате """
-        try:
-            logger.info(f"Наведение курсора на последнее сообщение")
-            messages = self.wait_elements(
-                self.locators.LAST_MESSAGE
-            )
-            
-            message = messages[-1] # Выбор последнего сообщения
+        self.scroll_chat_to_bottom()
+        logger.info("Удаление сообщения")
+        
+        elem = self.visibility_of_elements(
+            self.locators.DELETE_MESSAGE
+        )[-1]
 
-            action = ActionChains(self.browser)
-            logger.info("Навод курсора на последнее сообщение")
-            action.move_to_element(message).perform()
-            
-            logger.info("Ожидание кнопки меню сообщения")
-            self.wait_elements(self.locators.MESSAGE_MENU),
-            message="Меню сообщения не появилось" 
+        
+        elem.click()
 
-            logger.info("Нажатие кнопки 'Другие действия'")
-            self.wait_elements(
-            self.locators.OTHER_ACTIONS
-            )[-1].click()
+        self.visibility_of_element(
+            ((By. CLASS_NAME, "MuiDialog-paperFullWidth"))
+        )
 
-            logger.info("Удаление сообщения")
-            self.visibility_of_elements(
-                self.locators.DELETE_MESSAGE
-            )[-1].click()
+        logger.info("Подтверждение удаления сообщения")
+        self.element_to_be_clickable(
+            self.locators.CONFIRM_DELETE_MESSAGE
+        ).click()
+        logger.info("Ожидание появления карточки с удаленным сообщением")
+        check = self.visibility_of_elements(
+            ((By. CLASS_NAME, "message__message-deleted"))
+        )
+        self.invis_of_element(
+            ((By. CLASS_NAME, "message__message-deleted"))
+        )
+        logger.info("Карточка с удаленным сообщением появилась")
 
-            wait_modal = self.visibility_of_element(
-                ((By. CLASS_NAME, "MuiDialog-paperFullWidth"))
-            )
+    def open_discussions_and_write_message(self, disc_message, max_attempts=3):
+        """Надежное создание обсуждения с обработкой перекрытия элементов"""
+        for attempt in range(max_attempts):
+            try:
+                logger.info(f"Попытка {attempt + 1} из {max_attempts}")
+                
+                
+                self.scroll_chat_to_bottom()
+                messages = self.visibility_of_elements((By.CSS_SELECTOR, "div > .message-text"))
+                message = messages[-1 - (attempt % len(messages))]  
+                
+               
+                ActionChains(self.browser).move_to_element_with_offset(
+                    message, 
+                    10,  # Смещение по X 
+                    10   # Смещение по Y
+                ).pause(1).perform()
+                
+                
+                btn = WebDriverWait(self.browser, 10).until(
+                    EC.presence_of_all_elements_located((By.CSS_SELECTOR, "[aria-label='Начать обсуждение']"))
+                )[-1]
+                
+               
+                if btn.is_displayed():
+                    btn.click()
+                else:
+                    raise Exception("Кнопка не видна")
 
-            logger.info("Подтверждение удаления сообщения")
-            self.element_to_be_clickable(
-                self.locators.CONFIRM_DELETE_MESSAGE
-            ).click()
-            logger.info("Ожидание появления карточки с удаленным сообщением")
-            self.visibility_of_elements(
-                ((By. CLASS_NAME, "message__message-deleted"))
-            )
-            logger.info("Карточка с удаленным сообщением появилась")
+                logger.info("Ожидание появления модального окна с обсуждением")
+                self.visibility_of_element(
+                    ((By. CLASS_NAME, "thread-content-container"))
+                )
+                logger.info("Модальное окно успешно появилось")
 
+                logger.info("Ввод сообщения в обсуждение ")
+                self.visibility_of_element(
+                    ((By. CSS_SELECTOR, '[data-placeholder="Ответить в обсуждение"]'))
+                ).send_keys(disc_message)
 
-        except Exception as e:
-            logger.error(f"Не удалось удалить сообщение: {e}")
+                send = self.element_to_be_clickable(
+                    ((By. CLASS_NAME, "iSasNz"))
+                )
+                send.click()
+                logger.info("Сообщение написано и отправлено")
+
+                logger.info("Закрытие обсуждения кликом по крестику")
+                close = self.element_to_be_clickable(
+                    ((By. CLASS_NAME, "thread-close-button"))
+                )
+                close.click()
+                logger.info("Обсуждение закрыто")
+
+                logger.info("Проверка отображение обсуждений под сообщением")
+                self.visibility_of_element(
+                    ((By. CLASS_NAME, "hrpeaa"))
+                )
+                logger.info("Обсуждения отображаются под сообщением")    
+               
+                return True
+                
+            except Exception as e:
+                logger.error(f"Ошибка в попытке {attempt + 1}: {str(e)}")
+                if attempt == max_attempts - 1:
+                    raise Exception(f"Не удалось после {max_attempts} попыток")
+
 
     def check_message(self, rand_message):
         """
@@ -539,7 +636,8 @@ class MainPage(BasePage):
         """Проверка удаления сообщения"""
         try:
             elements = self.wait_elements(
-                (By.CLASS_NAME, "message-text"))
+                ((By. CLASS_NAME, "message-text"))
+            )
             
             found = False
             # Проверка, что сообщение больше не существует
