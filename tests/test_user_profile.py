@@ -1,13 +1,14 @@
-from pages.user_profile_page import UserProfile
+import pytest
 import random
 import string
-import pytest
+from pages.user_profile_page import UserProfile
 
 def generate_random_string(length=8):
     letters_and_digits = string.ascii_letters + string.digits
     return ''.join(random.choice(letters_and_digits) for _ in range(length))
 
 
+@pytest.mark.user_profile
 def test_05_open_user_profile_and_redact_info(browser): # Передаем фикстуру browser
     
     user = UserProfile(browser) # Создаем экземпляр UserProfile, передавая browser

@@ -50,22 +50,10 @@ class AuthorizationPage(BasePage):
         try:
             logger.info("Клик по кнопке 'Войти'")
             self.element_to_be_clickable(
-                self.locators.ENTER_SPACE_BUTTON
+                self.locators.ENTER_WORKSPACE_BUTTON
             ).click()
             logger.info("Кнопка 'Войти' нажата")
         except Exception as e:
             logger.error(f"Не удалось нажать кнопку 'Войти': {e}")
-
-    def decline_notifications(self):
-        """ Ожидание и нажатие кнопки 'Отклонить уведомления' """
-        self.visibility_of_element(self.main.MODAL_NOTIFICATIONS)
-        try:
-                # logger.info("Ожидание появления модального окна")
-            
-            logger.info("Появилось окно с уведомлениями")
-            logger.info("Нажатие кнопки 'Отклонить уведомления'")                
-            self.element_to_be_clickable(self.main.DECLINE_NOTIFICATIONS_BUTTON
-            ).click()
-            logger.info("Кнопка 'Отклонить уведомления' нажата")
-        except Exception as e:
-            logger.error(f"Не удалось нажать кнопку 'Отклонить уведомления': {e}")
+    
+    # @errorLog("Не удалось нажать кнопку 'Отклонить уведомления': {e}")

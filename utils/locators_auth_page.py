@@ -7,4 +7,4 @@ class AuthorizationLocators:
 
     ONE_TIME_CODE = (By. ID, "one-time-code")
 
-    ENTER_SPACE_BUTTON = (By. CSS_SELECTOR, "button.sc-iXGltN.hysUdk")
+    ENTER_WORKSPACE_BUTTON = (By. CSS_SELECTOR, "button.sc-iXGltN.hysUdk")

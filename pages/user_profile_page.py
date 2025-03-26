@@ -1,14 +1,13 @@
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+import random
 from utils.logger import Logger
-from utils.user_profile_locators import LocatorsUserProfile
-from utils.main_page_locators import LocatorsMainPage
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from utils.main_page_locators import LocatorsMainPage
+from selenium.webdriver.support.ui import WebDriverWait
+from utils.user_profile_locators import LocatorsUserProfile
 from selenium.webdriver.common.action_chains import ActionChains
-import random
-import time
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 logger = Logger()
 

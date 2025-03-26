@@ -1,8 +1,8 @@
+from utils.logger import Logger
 from selenium.common import TimeoutException
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from utils.logger import Logger
 
 logger = Logger()
 
@@ -12,6 +12,8 @@ class BasePage(object):
         
     def refresh_page(self):
         self.browser.refresh() 
+
+ #TODO НАКАЗАН
 
 
     def scroll_chat_to_bottom(self, attempts=3):
@@ -42,7 +44,9 @@ class BasePage(object):
             except Exception as e:
                 logger.error(f"Попытка {attempt + 1}: Ошибка прокрутки - {str(e)}")
                 raise Exception("Не удалось прокрутить чат до конца")
-            
+
+
+    # TODO НАКАЗАН
     def scroll_to_element(self, element, attempts=3):
         """Прокручивает контейнер чата до указанного элемента"""
         for attempt in range(attempts):
@@ -97,7 +101,7 @@ class BasePage(object):
                 EC.presence_of_element_located(locator)
             )
         except TimeoutException:
-            print(f"Элемент {locator} не найден")
+            logger.error(f"Элемент {locator} не найден")
 
     def wait_elements(self, locator):
         """Ожидание появления элементов на странице."""
@@ -106,7 +110,16 @@ class BasePage(object):
                 EC.presence_of_all_elements_located(locator)
             )
         except TimeoutException:
-            print(f"Элемент {locator} не найден")
+            logger.error(f"Элемент {locator} не найден")
+
+    def wait_for_selector_inside_element(self, element, locator):
+        """Ожидание появления элементов на странице."""
+        try:
+            return WebDriverWait(element, 10).until(
+                EC.presence_of_element_located(locator)
+            )
+        except TimeoutException:
+            logger.error(f"Элемент {element} {locator} не найден")
 
     def element_to_be_clickable(self, locator):
         """Ожидание, пока элемент станет кликабельным."""
@@ -115,7 +128,7 @@ class BasePage(object):
                 EC.element_to_be_clickable(locator)
             )
         except TimeoutException:
-            print(f"Элемент {locator} не найден")
+            logger.error(f"Элемент {locator} не найден")
 
 
 
@@ -126,7 +139,7 @@ class BasePage(object):
                 EC.visibility_of_element_located(locator)
             )
         except TimeoutException:
-            print(f"Элемент {locator} не найден")  
+            logger.error(f"Элемент {locator} не найден")  
 
     def visibility_of_elements(self, locator):
         """Ожидание пока элемент будет видимым"""
@@ -135,7 +148,8 @@ class BasePage(object):
                 EC.visibility_of_all_elements_located(locator)
             )
         except TimeoutException:
-            print(f"Элемент {locator} не найден")  
+            logger.error(f"Элемент {locator} не найден")  
+            
 
 
 
@@ -146,7 +160,7 @@ class BasePage(object):
                 EC.invisibility_of_element_located(locator)
             )
         except TimeoutException:
-            print(f"Элемент {locator} не найден")  
+            logger.error(f"Элемент {locator} не найден")  
 
 
     def invisibility_of_all_elements(self, locator):
