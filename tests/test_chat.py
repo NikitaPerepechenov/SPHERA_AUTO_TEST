@@ -14,7 +14,7 @@ random_message_text = generate_random_string(5)
 user = "Senders"
 
 @pytest.mark.chatik
-def test_06_message_delivery(browser_1):
+def test_01_message_delivery(browser_1):
     main = MainPage(browser_1) # Отправитель
   
 
@@ -29,7 +29,7 @@ def test_06_message_delivery(browser_1):
     # main.check_last_send_message(random_message_text)
 
 @pytest.mark.chatik
-def test_07_message_delivery_accept(browser_2):
+def test_02_message_delivery_accept(browser_2):
     main = MainPage(browser_2) # Получатель
 
     main.select_first_user() # Выбор первого пользователя в сайд-баре слева

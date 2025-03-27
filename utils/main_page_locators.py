@@ -2,9 +2,17 @@ from selenium.webdriver.common.by import By
 
 
 class LocatorsMainPage:
+
+    SCROLL_CHAT = (By.CLASS_NAME, "virtual-list__scroll-container")
+
+    SEARCH_USER = (By. CLASS_NAME, "search-string-input")
+    SELECT_USER = (By. CLASS_NAME, "user-option-item")
+    SELECT_USER_FROM_LIST = (By. CLASS_NAME, "spheraui-block-field__avatar-info")
+
     MESSAGE_INPUT = (By.CLASS_NAME, "ql-editor")
     MESSAGE_FIELD = (By.CSS_SELECTOR, '[aria-owns="quill-mention-list"]')
     
+    CREATE_MESSAGE_BUTTON = CREATE_CHANNEL_BUTTON = (By.CLASS_NAME, "sphr-button__icon") # [2]
     SEND_MESSAGE_BUTTON = (By.CLASS_NAME, 'send-button__active')
     SEND_MESSAGE_DISCUSSIONS = (By. CLASS_NAME, "iSasNz")
     
@@ -29,8 +37,11 @@ class LocatorsMainPage:
     CONFIRM_DELETE_MESSAGE = (By. CLASS_NAME, "error-button")
     DELETE_CHECK = (By. CLASS_NAME, "message__message-deleted")
 
+    DISCUSSIONS_BUTTON = (By. CSS_SELECTOR, '[aria-label="Начать обсуждение"]')
     DISCUSSIONS_MESSAGE = (By. CSS_SELECTOR, '[data-placeholder="Ответить в обсуждение"]')
     DISCUSSIONS_MODAL = (By. CLASS_NAME, "thread-content-container")
+    DISCUSSIONS_MODAL_CLOSE = (By. CLASS_NAME, "thread-close-button")
+    DISCUSSIONS_UNDER_MESSAGE = (By. CLASS_NAME, "hrpeaa")
 
     CREATE_CHANNEL_BUTTON = (By.CLASS_NAME, "sphr-button__icon") # [1]
     CHANNEL_NAME_FIELD = (By.ID, "name")
@@ -57,6 +68,7 @@ class LocatorsMainPage:
     ALL_ARCHIVE_CHANNELS = (By. CLASS_NAME, "spheraui-menu-item--secondary") #[1]
     LINKS_PREVIEV_MESSAGE = (By. CLASS_NAME, "link-previews__preview")
     MODAL_NOTIFICATIONS = (By.CLASS_NAME, "MuiDialog-paperFullWidth")
+
     LINKS_PREVIEV_MESSAGE = (By. CLASS_NAME, "link-previews__preview")
     DECLINE_NOTIFICATIONS_BUTTON = (By. CLASS_NAME, "MuiButton-outlinedSizeMedium")
 

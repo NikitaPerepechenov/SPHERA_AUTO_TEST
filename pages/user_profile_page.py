@@ -43,8 +43,8 @@ class UserProfile(BasePage):
             
             logger.info(f"Проверка поля '{field_name}' успешна")
         except (TimeoutException, NoSuchElementException, AssertionError) as e:
-            logger.error(f"Ошибка при проверке поля '{field_name}': {str(e)}")
-            raise
+            raise logger.error(f"Ошибка при проверке поля '{field_name}': {str(e)}")
+            
 
     def open_user_profile_modal_window(self):
         """ Нажатие по аватару пользователя в хедере приложения """
@@ -59,8 +59,8 @@ class UserProfile(BasePage):
             self.visibility_of_element(self.locators.PROFILE_MODAL_WAIT)
             logger.info(' Модальное окно успешно открыто')
         except Exception as e:
-            logger.error(f"Не удалось нажать по аватару пользователя в хедере приложения {e}")
-            raise
+            raise logger.error(f"Не удалось нажать по аватару пользователя в хедере приложения {e}")
+            
 
 
     def open_user_settings_in_modal_window(self):
@@ -74,8 +74,8 @@ class UserProfile(BasePage):
             )[0].click()
             logger.info("Успешное нажатие по кнопке 'Настройки пользователя' ")
         except Exception as e:
-            logger.error(f"Не удалось нажать на кнопку 'Настройки пользователя' {e}")
-            raise
+            raise logger.error(f"Не удалось нажать на кнопку 'Настройки пользователя' {e}")
+            
 
 
     def edit_information_button(self):
@@ -87,8 +87,8 @@ class UserProfile(BasePage):
             )[2].click()
             logger.info("Успешное нажатие кнопки редактирования информации")
         except Exception as e:
-            logger.error(f"Не удалось нажать кнопку редактирования информации {e}")
-            raise
+            raise logger.error(f"Не удалось нажать кнопку редактирования информации {e}")
+            
 
     def user_last_name_field(self, last_name):
         """ Редактирование поля 'Фамилия' """
@@ -109,8 +109,8 @@ class UserProfile(BasePage):
             logger.info(f"Поле 'Фамилия' успешно заполнено значением: {last_name}")
 
         except Exception as e:
-            logger.error(f"Не удалось заполнить поле 'Фамилия': {e}")
-            raise
+            raise logger.error(f"Не удалось заполнить поле 'Фамилия': {e}")
+            
 
 
     def user_first_name_field(self, first_name):
@@ -130,8 +130,8 @@ class UserProfile(BasePage):
             logger.info(f"Поле 'Имя' успешно заполнено значением: {first_name}")
 
         except Exception as e:
-            logger.error(f"Не удалось заполнить поле 'Имя': {e}")
-            raise
+            raise logger.error(f"Не удалось заполнить поле 'Имя': {e}")
+            
 
     def user_surname_field(self, surname):
         """ Редактирование поля 'Отчество' """
@@ -150,8 +150,8 @@ class UserProfile(BasePage):
             logger.info(f"Поле 'Имя' успешно заполнено значением: {surname}")
 
         except Exception as e:
-            logger.error(f"Не удалось заполнить поле 'Имя': {e}")
-            raise
+            raise logger.error(f"Не удалось заполнить поле 'Имя': {e}")
+            
 
     def gender_male_radio_button(self):
         """ Клик по радио-кнопке 'Мужской'  """
@@ -163,8 +163,8 @@ class UserProfile(BasePage):
             
             logger.info(" Радио-кнопка выбора мужского пола нажата ")
         except Exception as e:
-            logger.error(" Радио-кнопка выбора мужского пола не нажата ")
-            raise
+            raise logger.error(" Радио-кнопка выбора мужского пола не нажата ")
+            
 
 
     def user_info_field(self, info):
@@ -190,8 +190,8 @@ class UserProfile(BasePage):
             
             logger.info(" Поле О себе успешно заполнено ")
         except Exception as e:
-            logger.error(f"Не удалось отредактировать поле О себе {e}")
-            raise
+            raise logger.error(f"Не удалось отредактировать поле О себе {e}")
+            
 
     
     def user_date_of_birth(self):
@@ -219,8 +219,8 @@ class UserProfile(BasePage):
             random.choice(week).click()
             logger.info("Рандомная дата рождения успешно выбрана через плагин календаря")
         except Exception as e:
-            logger.error(f"Не удалось выбрать дату рождения через плагин календаря {e}")
-            raise
+            raise logger.error(f"Не удалось выбрать дату рождения через плагин календаря {e}")
+            
 
 
     def save_button(self):
@@ -244,8 +244,8 @@ class UserProfile(BasePage):
             logger.info("Проверка успешного сохранения информации в поле 'Фамилия'")
             self._check_field(self.locators.LAST_NAME_ASSERT, last_name, "Фамилия")
         except Exception as e:
-            logger.error(f"Не удалось проверить поле 'Фамилия' {e}")
-            raise    
+            raise logger.error(f"Не удалось проверить поле 'Фамилия' {e}")
+            
 
     def check_first_name(self, first_name):
         """Проверка успешного сохранения информации в поле 'Имя'."""
@@ -253,8 +253,8 @@ class UserProfile(BasePage):
             logger.info("Проверка успешного сохранения информации в поле 'Имя'")
             self._check_field(self.locators.FIRST_NAME_ASSERT, first_name, "Имя")
         except Exception as e:
-            logger.error(f"Не удалось проверить поле 'Имя' {e}")
-            raise
+            raise logger.error(f"Не удалось проверить поле 'Имя' {e}")
+            
 
 
     def check_surname(self, surname):
@@ -263,8 +263,8 @@ class UserProfile(BasePage):
             logger.info("Проверка успешного сохранения информации в поле 'Отчество'")    
             self._check_field(self.locators.SURNAME_ASSERT, surname, "Отчество")
         except Exception as e:
-            logger.error(f"Не удалось проверить поле 'Отчество' {e}")
-            raise
+            raise logger.error(f"Не удалось проверить поле 'Отчество' {e}")
+            
 
 
     def check_info(self, info):
@@ -273,8 +273,8 @@ class UserProfile(BasePage):
             logger.info("Проверка успешного сохранения информации в поле 'О себе'")    
             self._check_field(self.locators.USER_INFO_ASSERT, info, "О себе")
         except Exception as e:
-            logger.error(f"Не удалось проверить поле 'О себе' {e}")
-            raise
+            raise logger.error(f"Не удалось проверить поле 'О себе' {e}")
+            
 
     def check_radio_button_gender_male(self):
         """ Проверка успешного сохранении информации 
@@ -287,8 +287,8 @@ class UserProfile(BasePage):
             assert check.text == "Мужской", ">>> Ошибка с выбором пола <<<"
             logger.info("Проверка валидации радио-кнопки мужского пола успешна")
         except Exception as e:
-            logger.error(f"Проверка валидации радио-кнопки мужского пола НЕ успешна {e}")
-            raise
+            raise logger.error(f"Проверка валидации радио-кнопки мужского пола НЕ успешна {e}")
+        
 
 
     def redact_company_info(self):
@@ -300,7 +300,7 @@ class UserProfile(BasePage):
             )[3].click()
             logger.info("Кнопка редактирования нажата")
         except Exception as e:
-            logger.error(f"Не удалось нажать кнопку редактирования полей 'Компания'")
+            raise logger.error(f"Не удалось нажать кнопку редактирования полей 'Компания'")
 
     
     def redact_position_info(self):
@@ -318,7 +318,7 @@ class UserProfile(BasePage):
             ).click()
             logger.info("Выбран первый элемент выпадающего списка")
         except Exception as e:
-            logger.error(f"Не удалось выбрать элемент из выпадающего списка 'Должность'")
+            raise logger.error(f"Не удалось выбрать элемент из выпадающего списка 'Должность'")
 
     
     def redact_departament_info(self):
@@ -335,7 +335,7 @@ class UserProfile(BasePage):
             )[1].click()
             logger.info("Выбран второй элемент выпадающего списка 'Департамен'")
         except Exception as e:
-            logger.error(f"Не удалось выбрать элемент из выпадающего списка 'Департамент'")
+            raise logger.error(f"Не удалось выбрать элемент из выпадающего списка 'Департамент'")
 
     def redact_head_of_department(self):
         """ Редактирование поля 'Руководитель' """
@@ -351,5 +351,5 @@ class UserProfile(BasePage):
             )[1].click()
             logger.info("Выбран второй элемент выпадающего списка 'Руководитель'")
         except Exception as e:
-            logger.error(f"Не удалось выбрать элемент из выпадающего списка 'Руководитель'")
+            raise logger.error(f"Не удалось выбрать элемент из выпадающего списка 'Руководитель'")
 

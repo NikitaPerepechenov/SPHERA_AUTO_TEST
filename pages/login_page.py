@@ -21,7 +21,7 @@ class AuthorizationPage(BasePage):
             ).send_keys(email)
             logger.info(f"Email: {email} введен")
         except Exception as e:
-            logger.error(f"Не удалось ввести email: {email},  {e}")
+            raise logger.error(f"Не удалось ввести email: {email},  {e}")
 
     def submit_button(self):
         """Клик по кнопке 'Войти'"""
@@ -32,7 +32,7 @@ class AuthorizationPage(BasePage):
             ).click()
             logger.info("Кнопка 'Войти' нажата")
         except Exception as e:
-            logger.error(f"Не удалось нажать кнопку 'Войти': {e}")
+            raise logger.error(f"Не удалось нажать кнопку 'Войти': {e}")
 
     def one_time_code(self, code):
         """Ввод одноразового кода"""
@@ -43,7 +43,7 @@ class AuthorizationPage(BasePage):
             ).send_keys(code)
             logger.info(f"Код: {code} введен")
         except Exception as e:
-            logger.error(f"Не удалось ввести код: {code},  {e}")
+            raise logger.error(f"Не удалось ввести код: {code},  {e}")
 
     def enter_space_button(self):
         """Клик по кнопке 'Войти'"""
@@ -54,6 +54,5 @@ class AuthorizationPage(BasePage):
             ).click()
             logger.info("Кнопка 'Войти' нажата")
         except Exception as e:
-            logger.error(f"Не удалось нажать кнопку 'Войти': {e}")
+            raise logger.error(f"Не удалось нажать кнопку 'Войти': {e}")
     
-    # @errorLog("Не удалось нажать кнопку 'Отклонить уведомления': {e}")
