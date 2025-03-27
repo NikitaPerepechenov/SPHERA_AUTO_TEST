@@ -358,7 +358,6 @@ class MainPage(BasePage):
                 self.locators.SEND_MESSAGE_BUTTON
             ).click()
             logger.info("Сообщение отправлено")
-            time.sleep(1)
         except Exception as e:
             raise logger.error(f"Сообщение не отправлено")
 
