@@ -3,11 +3,10 @@ from utils.logger import Logger
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from utils.main_page_locators import LocatorsMainPage
 from selenium.webdriver.support.ui import WebDriverWait
 from utils.user_profile_locators import LocatorsUserProfile
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+
 
 logger = Logger()
 
@@ -18,8 +17,7 @@ class UserProfile(BasePage):
         """
         self.browser = browser
         self.wait = WebDriverWait(browser, 10)
-        self.locators = LocatorsUserProfile
-        self.loc = LocatorsMainPage
+        self.loc = LocatorsUserProfile
         super(UserProfile, self).__init__(browser)
 
 
@@ -35,28 +33,27 @@ class UserProfile(BasePage):
             logger.info(f"Проверка поля '{field_name}'")
             elements = self.wait_elements(locator)
             if not elements:
-                raise NoSuchElementException(f"Элемент '{field_name}' не найден")
+                raise logger.error(f"Элемент '{field_name}' не найден")
             
             actual_text = elements[0].text
             assert actual_text == expected_text, \
                 f"Ошибка в поле '{field_name}': ожидалось '{expected_text}', получено '{actual_text}'"
             
             logger.info(f"Проверка поля '{field_name}' успешна")
-        except (TimeoutException, NoSuchElementException, AssertionError) as e:
+        except (AssertionError) as e:
             raise logger.error(f"Ошибка при проверке поля '{field_name}': {str(e)}")
             
 
     def open_user_profile_modal_window(self):
         """ Нажатие по аватару пользователя в хедере приложения """
-        
         try:
             logger.info("Нажатие по аватару пользователя в хедере приложения")
-            self.visibility_of_elements(
-            self.locators.PROFILE_MODAL
-            )[1].click()
+            self.visibility_of_element(
+            self.loc.PROFILE_MODAL
+            ).click()
             logger.info("Успешное нажатие по аватару пользователя")
             logger.info('Ожидание появления модального окна')
-            self.visibility_of_element(self.locators.PROFILE_MODAL_WAIT)
+            self.visibility_of_element(self.loc.PROFILE_MODAL_WAIT)
             logger.info(' Модальное окно успешно открыто')
         except Exception as e:
             raise logger.error(f"Не удалось нажать по аватару пользователя в хедере приложения {e}")
@@ -69,9 +66,9 @@ class UserProfile(BasePage):
         
         try:
             logger.info("Попытка нажатие кнопкни 'Настройки пользователя'")
-            self.visibility_of_elements(
-            self.locators.USER_PROFILE_SETTINGS
-            )[0].click()
+            self.element_to_be_clickable(
+            self.loc.USER_PROFILE_SETTINGS
+            ).click()
             logger.info("Успешное нажатие по кнопке 'Настройки пользователя' ")
         except Exception as e:
             raise logger.error(f"Не удалось нажать на кнопку 'Настройки пользователя' {e}")
@@ -83,7 +80,7 @@ class UserProfile(BasePage):
         try:
             logger.info("Попытка нажатия кнопки редактирования информации")
             self.visibility_of_elements(
-            self.locators.REDACT_USER_INFO
+            self.loc.REDACT_USER_INFO
             )[2].click()
             logger.info("Успешное нажатие кнопки редактирования информации")
         except Exception as e:
@@ -95,7 +92,7 @@ class UserProfile(BasePage):
         try:
             logger.info("Редактирование поля 'Фамилия'")
             action = ActionChains(self.browser)
-            last_name_field = self.wait_element(self.locators.LAST_NAME_FIELD)
+            last_name_field = self.wait_element(self.loc.LAST_NAME_FIELD)
             
 
             logger.info("Поле 'Фамилия' не пустое. Очистка поля.")
@@ -118,7 +115,7 @@ class UserProfile(BasePage):
         try:
             logger.info("Редактирование поля 'Имя'")
 
-            first_name_field = self.wait_element(self.locators.FIRST_NAME_FIELD)
+            first_name_field = self.wait_element(self.loc.FIRST_NAME_FIELD)
             action = ActionChains(self.browser)
             logger.info("Поле 'Имя' не пустое. Очистка поля.")
             action.double_click(first_name_field).perform()
@@ -138,7 +135,7 @@ class UserProfile(BasePage):
         try:
             logger.info("Редактирование поля 'Имя'")
 
-            surname_field = self.wait_element(self.locators.SURNAME_FIELD)
+            surname_field = self.wait_element(self.loc.SURNAME_FIELD)
             action = ActionChains(self.browser)
             logger.info("Поле 'Имя' не пустое. Очистка поля.")
             action.double_click(surname_field).perform() 
@@ -158,7 +155,7 @@ class UserProfile(BasePage):
         try:
             logger.info(" Клик по радио-кнопке выбора мужского пола ")
             self.wait_elements(
-            self.locators.GENDER_MALE_RADIO_BUTTON
+            self.loc.GENDER_MALE_RADIO_BUTTON
             )[0].click()
             
             logger.info(" Радио-кнопка выбора мужского пола нажата ")
@@ -172,11 +169,11 @@ class UserProfile(BasePage):
         try:
             logger.info(" Попытка редактирования поля О себе ")
             self.wait_elements(
-            self.locators.USER_INFO_FIELD
+            self.loc.USER_INFO_FIELD
             )[4].click()
 
             info_field = self.wait_elements(
-            self.locators.INPUT_INFO
+            self.loc.INPUT_INFO
             )[0]
             action = ActionChains(self.browser)
             info_field.click()
@@ -184,7 +181,7 @@ class UserProfile(BasePage):
             info_field.send_keys(Keys.BACKSPACE)
 
             self.wait_elements(
-            self.locators.INPUT_INFO
+            self.loc.INPUT_INFO
             )[0].send_keys(info)
 
             
@@ -199,22 +196,22 @@ class UserProfile(BasePage):
         try:
             logger.info("Вызов плагина календаря")
             self.wait_element(
-            self.locators.DATE_OF_BIRTH_REACT_PLUGIN
+            self.loc.DATE_OF_BIRTH_REACT_PLUGIN
             ).click()
             logger.info("Выбор 'Февраль' ")
             february = self.visibility_of_elements(
-            self.locators.FEBRUARY_MONTH
+            self.loc.FEBRUARY_MONTH
             )[1]
             february.click()
             logger.info("Месяц Февраль выбран")
 
             logger.info("Ожидание появления элемента")
             self.visibility_of_element(
-            self.locators.DATE_OF_BIRTH_PLUGIN
+            self.loc.DATE_OF_BIRTH_PLUGIN
             )
 
             week = self.visibility_of_elements(
-            self.locators.WEEK_DATE_OF_BIRTH_PLUGIN
+            self.loc.WEEK_DATE_OF_BIRTH_PLUGIN
             )
             random.choice(week).click()
             logger.info("Рандомная дата рождения успешно выбрана через плагин календаря")
@@ -228,12 +225,12 @@ class UserProfile(BasePage):
         try:
             logger.info(" Нажатие кнопки Сохранить ")
             self.wait_elements(
-            self.locators.SAVE_BUTTON
+            self.loc.SAVE_BUTTON
             )[1].click()
             logger.info("Кнопка Сохранить успешно нажата")
             
             logger.info("Ожидание скрытия кнопки Сохранить")
-            self.invisibility_of_all_elements(self.locators.SAVE_BUTTON)
+            self.invisibility_of_all_elements(self.loc.SAVE_BUTTON)
         except Exception as e:
             logger.error(f" Не удалось нажать кнопку Сохранить  {e}")
             raise
@@ -242,7 +239,7 @@ class UserProfile(BasePage):
         """Проверка успешного сохранения информации в поле 'Фамилия'."""
         try:
             logger.info("Проверка успешного сохранения информации в поле 'Фамилия'")
-            self._check_field(self.locators.LAST_NAME_ASSERT, last_name, "Фамилия")
+            self._check_field(self.loc.LAST_NAME_ASSERT, last_name, "Фамилия")
         except Exception as e:
             raise logger.error(f"Не удалось проверить поле 'Фамилия' {e}")
             
@@ -251,7 +248,7 @@ class UserProfile(BasePage):
         """Проверка успешного сохранения информации в поле 'Имя'."""
         try:
             logger.info("Проверка успешного сохранения информации в поле 'Имя'")
-            self._check_field(self.locators.FIRST_NAME_ASSERT, first_name, "Имя")
+            self._check_field(self.loc.FIRST_NAME_ASSERT, first_name, "Имя")
         except Exception as e:
             raise logger.error(f"Не удалось проверить поле 'Имя' {e}")
             
@@ -261,7 +258,7 @@ class UserProfile(BasePage):
         """Проверка успешного сохранения информации в поле 'Отчество'."""
         try:
             logger.info("Проверка успешного сохранения информации в поле 'Отчество'")    
-            self._check_field(self.locators.SURNAME_ASSERT, surname, "Отчество")
+            self._check_field(self.loc.SURNAME_ASSERT, surname, "Отчество")
         except Exception as e:
             raise logger.error(f"Не удалось проверить поле 'Отчество' {e}")
             
@@ -271,7 +268,7 @@ class UserProfile(BasePage):
         """Проверка успешного сохранения информации в поле 'О себе'."""
         try:
             logger.info("Проверка успешного сохранения информации в поле 'О себе'")    
-            self._check_field(self.locators.USER_INFO_ASSERT, info, "О себе")
+            self._check_field(self.loc.USER_INFO_ASSERT, info, "О себе")
         except Exception as e:
             raise logger.error(f"Не удалось проверить поле 'О себе' {e}")
             
@@ -282,7 +279,7 @@ class UserProfile(BasePage):
         try:
             logger.info("Проверка радио-кнопки мужского пола")
             check = self.wait_elements(
-            self.locators.GENDER_MALE_RADIO_BUTTON_ASSERT
+            self.loc.GENDER_MALE_RADIO_BUTTON_ASSERT
             )[0]
             assert check.text == "Мужской", ">>> Ошибка с выбором пола <<<"
             logger.info("Проверка валидации радио-кнопки мужского пола успешна")

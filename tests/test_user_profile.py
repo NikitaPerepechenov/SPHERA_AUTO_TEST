@@ -18,7 +18,7 @@ def test_05_open_user_profile_and_redact_info(browser): # Передаем фи�
     surname = generate_random_string(10) # Генерация рандомного Отчества пользователя
     info = generate_random_string(10) # Генерация рандомной информации в поле О себе
     
-    user.open_user_profile_modal_window() # Клик по аватарке пользователя в футере приложения
+    user.open_user_profile_modal_window() # Клик по аватарке пользователя в Хедере приложения
     user.open_user_settings_in_modal_window() # В появившемся модальном окне клик по 'Настройки пользователя'
     
     user.edit_information_button() # В открывшейся странице профиля пользователя нажатие по кнопке редактирования личной информации
