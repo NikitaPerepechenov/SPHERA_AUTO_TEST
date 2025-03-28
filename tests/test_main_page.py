@@ -13,7 +13,7 @@ email = "qa1@fusion.ru"
 code = "654321"
 
 @pytest.mark.skip
-def test_03_authorization(browser):
+def test_02_authorization(browser):
     auth_page = AuthorizationPage(browser)
     auth_page.email_field(email) # Ввод email
     auth_page.submit_button() # Нажатие кнопки 'Получить код'
@@ -21,7 +21,7 @@ def test_03_authorization(browser):
     auth_page.enter_space_button() # Вход в пространство 
 
 
-def test_04_create_channel_write_message_delete_channel(browser):  # Передаем фикстуру browser    
+def test_03_create_channel_write_message_delete_channel(browser):  # Передаем фикстуру browser    
     main = MainPage(browser)  # Создаем экземпляр MainPage, передавая browser
 
     name_channel = generate_random_string(5) 
@@ -48,7 +48,7 @@ def test_04_create_channel_write_message_delete_channel(browser):  # Перед�
     main.check_channel_deleted(name_channel) # Проверка удаления канала из левого сайд бара
 
 
-def test_05_create_channel_and_archive_channel(browser):
+def test_04_create_channel_and_archive_channel(browser):
     
     main = MainPage(browser)
 
@@ -71,7 +71,7 @@ def test_05_create_channel_and_archive_channel(browser):
     main.back() 
  
 
-def test_06_enter_random_channel_write_message_edit_reply_and_delete_message(browser):
+def test_05_enter_random_channel_write_message_edit_reply_and_delete_message(browser):
     main = MainPage(browser)
 
     random_message_text = generate_random_string(5)

@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 
+
 logger = Logger()
 
 class MainPage(BasePage):
@@ -257,7 +258,7 @@ class MainPage(BasePage):
     def edit_last_message(self, edit_message):
         """Редактирование последнего отправленного сообщения"""
         try:
-            
+            self.scroll_chat_to_bottom()
             logger.info("Выбор последнего сообщения в чате для редактирования")
             messages = self.visibility_of_elements(self.locators.LAST_MESSAGE)
             if not messages:
@@ -276,15 +277,11 @@ class MainPage(BasePage):
             logger.info("Нажатие 'Редактировать сообщение'")
 
             edit_button = self.wait_elements(self.locators.EDIT_MESSAGE)[-1]
-            # message.find_element(By. CSS_SELECTOR, '[aria-label="Редактировать сообщение"]')
-            # message.click()
             edit_button.click()
 
             logger.info("Ожидание модального окна редактирования")
-            self.wait.until(
-                EC.visibility_of_element_located(self.locators.EDIT_MESSAGE_MODAL),
-                message="Модальное окно не появилось"
-            )
+            self.visibility_of_element(self.locators.EDIT_MESSAGE_MODAL)
+            
 
             logger.info("Очистка поля ввода")
             write_message = self.visibility_of_element(self.locators.MESSAGE_FIELD)
@@ -293,6 +290,7 @@ class MainPage(BasePage):
             logger.info("Ввод нового текста")
             write_message.send_keys(edit_message)
             logger.info("Сообщение отредактировано")
+            self.scroll_chat_to_bottom()
 
         except Exception as e:
             raise logger.error(f"Ошибка редактирования сообщения: {e}")
@@ -350,16 +348,26 @@ class MainPage(BasePage):
         except Exception as e:
             raise logger.error(f"Сообщение не отправлено")
 
-    def send_message_user(self):
+    def send_message_user(self, random_message_text):
         """ Кнопка отправки сообщения """
-        try:
+        try:    
             logger.info("Нажатие кнопки 'Отправить сообщение'")
             self.element_to_be_clickable(
-                self.locators.SEND_MESSAGE_BUTTON
-            ).click()
-            logger.info("Сообщение отправлено")
+                self.locators.SEND_MESSAGE_BUTTON).click()
+            
+            self.invis_of_element(self.locators.SEND_MESSAGE_BUTTON)
+
+            messages = self.visibility_of_elements(self.locators.LAST_MESSAGE)[-1]
+            messages = messages.text
+                
+            for _ in range (5):
+                if messages == random_message_text:
+                    logger.info("Сообщение отправлено")
+                    break 
         except Exception as e:
-            raise logger.error(f"Сообщение не отправлено")
+            raise logger.error(f"Сообщение не отправлено {e}")
+        
+
 
     
 
@@ -420,8 +428,7 @@ class MainPage(BasePage):
         element.click()
 
         self.visibility_of_element(
-            (self.locators.MODAL_NOTIFICATIONS) 
-        )
+            self.locators.MODAL_NOTIFICATIONS)
 
         logger.info("Подтверждение удаления сообщения")
         self.element_to_be_clickable(
@@ -429,11 +436,9 @@ class MainPage(BasePage):
         ).click()
         logger.info("Ожидание появления карточки с удаленным сообщением")
         self.visibility_of_elements(
-            (self.locators.DELETE_CHECK)
-        )
+            self.locators.DELETE_CHECK)
         self.invis_of_element(
-            (self.locators.DELETE_CHECK)
-        )
+            self.locators.DELETE_CHECK)
         logger.info("Карточка с удаленным сообщением появилась")
 
     def open_discussions_and_write_message(self, disc_message, max_attempts=3):
@@ -553,8 +558,7 @@ class MainPage(BasePage):
         try:
             logger.info("Выбор первого пользователя во вкладке Сообщения")
             self.visibility_of_elements(
-                self.locators.SELECT_USER_FROM_LIST
-            )[0].click()
+                self.locators.SELECT_USER_FROM_LIST)[0].click()
             actions = ActionChains(self.browser)
             actions.move_by_offset(3, 3).click().perform()
         except Exception as e:
@@ -594,6 +598,7 @@ class MainPage(BasePage):
                 
         
     def check_reply_message(self):
+        self.scroll_chat_to_bottom()
         logger.info('Проверка появления ответа на сообщение')
         self.visibility_of_elements(
             self.locators.CHECK_REPLY
@@ -603,6 +608,7 @@ class MainPage(BasePage):
 
     def check_edit_message(self, edit_message):
         try:
+            self.scroll_chat_to_bottom()
             logger.info("Проверка отредактированного сообщения")
             messages = self.visibility_of_elements(
                 (self.locators.LAST_MESSAGE)
@@ -684,11 +690,11 @@ class MainPage(BasePage):
             ), ">>> Message assert ERROR, second try, message not found<<<"
 
     def check_last_send_message(self, random_message_text):
+        self.scroll_chat_to_bottom()
         found = False
         for _ in range(10):
             messages = self.visibility_of_elements(
-                self.locators.LAST_MESSAGE
-            )
+                self.locators.LAST_MESSAGE)
             if messages and messages[-1].text == random_message_text:
                 found = True
                 logger.info(f"Сообщение '{random_message_text}' найдено ")

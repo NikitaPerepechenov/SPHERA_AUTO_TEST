@@ -8,6 +8,7 @@ class LocatorsMainPage:
     SEARCH_USER = (By. CLASS_NAME, "search-string-input")
     SELECT_USER = (By. CLASS_NAME, "user-option-item")
     SELECT_USER_FROM_LIST = (By. CLASS_NAME, "spheraui-block-field__avatar-info")
+    SELECT_USER_FROM_LIST_BY_NAME = (By. CLASS_NAME, "spheraui-avatar-info")
 
     MESSAGE_INPUT = (By.CLASS_NAME, "ql-editor")
     MESSAGE_FIELD = (By.CSS_SELECTOR, '[aria-owns="quill-mention-list"]')
