@@ -1,5 +1,4 @@
 from utils.locators_auth_page import AuthorizationLocators
-from utils.main_page_locators import LocatorsMainPage
 from utils.logger import Logger
 from pages.base_page import BasePage
 
@@ -8,20 +7,20 @@ logger = Logger()
 class AuthorizationPage(BasePage):
     def __init__(self, browser):
         self.browser = browser
-        self.locators = AuthorizationLocators
-        self.main = LocatorsMainPage
         super(AuthorizationPage, self).__init__(browser)
+        self.locators = AuthorizationLocators
 
     def email_field(self, email):
         """Ввод email"""
         try:
             logger.info(f"Ввод email: {email}")
-            self.visibility_of_element(
+            self.element_to_be_clickable(
                 self.locators.EMAIL_FIELD
             ).send_keys(email)
             logger.info(f"Email: {email} введен")
         except Exception as e:
-            raise logger.error(f"Не удалось ввести email: {email},  {e}")
+            logger.error(f"Не удалось ввести email: {email},  {e}")
+            raise Exception(f"Не удалось ввести email: {email},  {e}")
 
     def submit_button(self):
         """Клик по кнопке 'Войти'"""
@@ -49,10 +48,10 @@ class AuthorizationPage(BasePage):
         """Клик по кнопке 'Войти'"""
         try:
             logger.info("Клик по кнопке 'Войти'")
-            self.element_to_be_clickable(
-                self.locators.ENTER_WORKSPACE_BUTTON
-            ).click()
+            self.visibility_of_elements(
+                self.locators.ENTER_WORKSPACE_BUTTON)[1].click()
             logger.info("Кнопка 'Войти' нажата")
         except Exception as e:
-            raise logger.error(f"Не удалось нажать кнопку 'Войти': {e}")
+            logger.error(f"Не удалось нажать кнопку 'Войти': {e}")
+            raise Exception (f"Не удалось нажать кнопку 'Войти': {e}")
     

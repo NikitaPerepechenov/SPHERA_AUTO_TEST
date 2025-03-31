@@ -25,11 +25,6 @@ def browser():
 
     driver.get("https://app.dev.sphera.work/")
     driver.maximize_window()
-    with open("cookies.json", "r") as file:
-        cookies = json.load(file)
-    for cookie in cookies:
-        driver.add_cookie(cookie)
-    driver.refresh()
     yield driver
 
     driver.quit()
@@ -52,11 +47,6 @@ def browser_1():
 
     driver.get("https://app.dev.sphera.work/")
     driver.maximize_window()
-    with open("cookies.json", "r") as file:
-        cookies = json.load(file)
-    for cookie in cookies:
-        driver.add_cookie(cookie)
-    driver.refresh()
     yield driver
 
     driver.quit()
@@ -79,13 +69,6 @@ def browser_2():
     service = Service(executable_path="/snap/bin/chromedriver") # указать свой путь к драйверу
     driver = webdriver.Chrome(options=options)
     driver.get("https://app.dev.sphera.work/")
-    
-    
-    with open("cookies2.json", "r") as file:
-        cookies = json.load(file)
-    for cookie in cookies:
-        driver.add_cookie(cookie)
-    driver.refresh()
     
     yield driver
     

@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 class LocatorsUserProfile:
     
     PROFILE_MODAL = (By. CLASS_NAME, "header-user-info")
-    PROFILE_MODAL_WAIT = (By. CLASS_NAME, "sc-kLKKgF.dLFUSS")
+    PROFILE_MODAL_WAIT = (By. CLASS_NAME, "user-menu__settings-list")
     USER_PROFILE_SETTINGS = (By. CLASS_NAME, "menu-item-link") 
 
     REDACT_USER_INFO = (By. CLASS_NAME, "cursor-pointer")

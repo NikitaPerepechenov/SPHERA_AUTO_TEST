@@ -440,29 +440,28 @@ class MainPage(BasePage):
         self.invis_of_element(
             self.locators.DELETE_CHECK)
         logger.info("Карточка с удаленным сообщением появилась")
+        
 
     def open_discussions_and_write_message(self, disc_message, max_attempts=3):
-        """Cоздание обсуждения с обработкой перекрытия элементов"""
+        """Cоздание обсуждения и отправка сообщения"""
         for attempt in range(max_attempts):
             try:
                 logger.info(f"Попытка {attempt + 1} из {max_attempts}")
                 
                 
-                messages = self.visibility_of_elements(self.locators.LAST_MESSAGE) # TODO
+                messages = self.visibility_of_elements(self.locators.LAST_MESSAGE) 
                 message = messages[-1 - (attempt % len(messages))]  
                 
                
-                ActionChains(self.browser).move_to_element_with_offset(
-                    message, 
-                    10,  # Смещение по X 
-                    10   # Смещение по Y
-                ).pause(1).perform()
+                ActionChains(self.browser).move_to_element(message).pause(1).perform()
+                    # 10,  # Смещение по X 
+                    # 10   # Смещение по Y
+                
                 
                 
                 btn = self.wait_elements(
-                    self.locators.DISCUSSIONS_BUTTON
-                )[-1]
-
+                    self.locators.DISCUSSIONS_BUTTON)[-1]
+                
                
                 if btn.is_displayed():
                     btn.click()
@@ -471,8 +470,7 @@ class MainPage(BasePage):
 
                 logger.info("Ожидание появления модального окна с обсуждением")
                 self.visibility_of_element(
-                    self.locators.DISCUSSIONS_MODAL
-                )
+                    self.locators.DISCUSSIONS_MODAL)
                 logger.info("Модальное окно успешно появилось")
 
                 logger.info("Ввод сообщения в обсуждение ")
@@ -593,6 +591,7 @@ class MainPage(BasePage):
                     raise Exception(f"Сообщение ' {random_message_text}' не было удалено.")
                 else:
                     logger.info(f"Сообщение ' {random_message_text}' успешно удалено.")
+                    self.scroll_chat_to_bottom_instantly()
         except Exception as e:
                 raise logger.error(f"Не удалось проверить удаление сообщения: {e}")
                 
@@ -611,8 +610,7 @@ class MainPage(BasePage):
             self.scroll_chat_to_bottom()
             logger.info("Проверка отредактированного сообщения")
             messages = self.visibility_of_elements(
-                (self.locators.LAST_MESSAGE)
-            )
+                self.locators.LAST_MESSAGE)
             
             message = messages[-1]
             assert message.text == edit_message, "<<<<<<<<< edited message, error >>>>>>>>>>"

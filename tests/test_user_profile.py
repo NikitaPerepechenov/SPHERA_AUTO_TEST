@@ -8,7 +8,7 @@ def generate_random_string(length=8):
     return ''.join(random.choice(letters_and_digits) for _ in range(length))
 
 
-def test_06_open_user_profile_and_redact_info(browser): # Передаем фикстуру browser
+def test_09_open_user_profile_and_redact_info(browser): # Передаем фикстуру browser
     
     user = UserProfile(browser) # Создаем экземпляр UserProfile, передавая browser
     

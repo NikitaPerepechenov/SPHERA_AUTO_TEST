@@ -32,10 +32,18 @@ class BasePage(object):
             "arguments[0].scrollTo({ top: arguments[0].scrollHeight, behavior: 'smooth' });", scroll
         )
 
+    def scroll_chat_to_bottom_instantly(self):
+        scroll = self.wait_element(
+            self.locators.SCROLL_CHAT
+        )
+        self.browser.execute_script(
+            "arguments[0].scrollTop = arguments[0].scrollHeight;", scroll
+        )
+
     def wait_element(self, locator):
         """Ожидание появления элемента на странице."""
         try:
-            return WebDriverWait(self.browser, 10).until(
+            return WebDriverWait(self.browser, 20).until(
                 EC.presence_of_element_located(locator)
             )
         except TimeoutException:
@@ -44,7 +52,7 @@ class BasePage(object):
     def wait_elements(self, locator):
         """Ожидание появления элементов на странице."""
         try:
-            return WebDriverWait(self.browser, 10).until(
+            return WebDriverWait(self.browser, 20).until(
                 EC.presence_of_all_elements_located(locator)
             )
         except TimeoutException:
@@ -53,7 +61,7 @@ class BasePage(object):
     def wait_for_selector_inside_element(self, element, locator):
         """Ожидание появления элементов на странице."""
         try:
-            return WebDriverWait(element, 10).until(
+            return WebDriverWait(element, 20).until(
                 EC.presence_of_element_located(locator)
             )
         except TimeoutException:
@@ -82,7 +90,7 @@ class BasePage(object):
     def visibility_of_elements(self, locator):
         """Ожидание пока элемент будет видимым"""
         try:
-            return WebDriverWait(self.browser, 10).until(
+            return WebDriverWait(self.browser, 20).until(
                 EC.visibility_of_all_elements_located(locator)
             )
         except TimeoutException:
@@ -94,7 +102,7 @@ class BasePage(object):
     def invis_of_element(self, locator):
         """Ожидание пока элемент будет neвидимым"""
         try:
-            return WebDriverWait(self.browser, 10).until(
+            return WebDriverWait(self.browser, 20).until(
                 EC.invisibility_of_element_located(locator)
             )
         except TimeoutException:
@@ -104,7 +112,7 @@ class BasePage(object):
     def invisibility_of_all_elements(self, locator):
         """Ожидание, пока все элементы, найденные по локатору, станут невидимыми."""
         try:
-            return WebDriverWait(self.browser, 10).until(
+            return WebDriverWait(self.browser, 20).until(
                 lambda driver: all(not element.is_displayed() for element in driver.find_elements(*locator))
             )
         except TimeoutException:

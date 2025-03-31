@@ -29,8 +29,8 @@ class LocatorsMainPage:
     EDIT_MESSAGE_MODAL = (By. CLASS_NAME, "action-message__icon-container")
 
     REPLY_MESSAGE = (By.CSS_SELECTOR, '[aria-label="Ответить на сообщение"]')
-    MODAL_REPLY = (By. CLASS_NAME, "sc-hpfkCd.hFJVdA")
-    CHECK_REPLY = (By. CLASS_NAME, "sc-eVZGIO.kgVmpG")
+    MODAL_REPLY = (By. CLASS_NAME, "action-message__content-container")
+    CHECK_REPLY = (By. CLASS_NAME, "reply__text-container")
 
 
     OTHER_ACTIONS = (By.CSS_SELECTOR, '[aria-label="Другие действия"]')
@@ -59,10 +59,7 @@ class LocatorsMainPage:
     SETTINGS_TAB = (By.CSS_SELECTOR, '[role="tab"]')
     DELETE_BUTTON = (By.CLASS_NAME, "settings__button-warning")
     CONFIRM_DELETE_BUTTON = (By.CLASS_NAME, "error-button")
-    DELETE_CONFIRMATION_MESSAGE = (
-        By.CSS_SELECTOR,
-        ".Toastify__toast-body > div:nth-child(2)",
-    )
+    DELETE_CONFIRMATION_MESSAGE = (By.CSS_SELECTOR, "[role='alert']")
     ARCHIVE_CHANNEL = (By. CLASS_NAME, "settings__button")
     ARCHIVE_CONFIRM_BUTTON = (By.CLASS_NAME, "error-button")
     KEBAB_MENU = (By.CLASS_NAME, 'sphr-button__icon') # [0]
