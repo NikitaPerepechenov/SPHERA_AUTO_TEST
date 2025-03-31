@@ -56,6 +56,7 @@ class Channels:
 
         except requests.exceptions.RequestException as e:
             logger.error(f"Ошибка при создании канала: {e}")
+        
 
                 
     def check_channel_by_name(self):
@@ -73,7 +74,7 @@ class Channels:
             channel_data = response.json()
             
             found_channel = None
-            for channel in channel_data["payload"]["channels"]:
+            for channel in channel_data.get("payload").get("channels"): 
                 if channel["name"] == self.channel_name:
                     found_channel = channel
                     break
@@ -98,7 +99,7 @@ class Channels:
 
         try: 
             response = requests.delete(
-                DELETE_CHANNEL_BY_ID + f"{self.channel_id}", 
+                f"{DELETE_CHANNEL_BY_ID}{self.channel_id}", 
                 headers=headers, 
             )
             assert response.status_code == 204, "Канал не удален"
