@@ -6,12 +6,14 @@ from payloads import ChannelsPayload as channels
 BASE_URL = "https://api.dev.sphera.work/api/v1/"
 CHANNELS_CREATE_URL = BASE_URL + "channels/create"
 GET_CHANNELS = BASE_URL + "channels/users-channels"
-DELETE_CHANNEL_BY_ID = BASE_URL + "channels/delete/"
+DELETE_CHANNEL_BY_ID = BASE_URL + "channels/delete/" # ID
+ARCHIVE_CHANNEL_BY_ID = BASE_URL + "channels/""/toggle-archive-status"
 
 #HEADERS
 AUTHORIZATION_HEADER = "authorization"
 CONTENT_TYPE_HEADER = "content-type"
-DEVICE_ID_HEADER = "device-id"
+HEADER_DEVICE_ID_FIRST_USER = "device-id"
+HEADER_DEVICE_ID_SECOND_USER = "device-id"
 
 logger = Logger()
 
@@ -19,11 +21,11 @@ class Channels:
     def __init__(self):
         self.auth = Authorization()
 
-        self.refresh_token = self.auth.get_refresh_token()
+        self.refresh_token = self.auth.get_refresh_token_first_user()
         
         self.default_headers = {
             CONTENT_TYPE_HEADER: "application/json",
-            DEVICE_ID_HEADER: "a8100b26-82e7-427e-b731-9ccbabcf62f5"
+            HEADER_DEVICE_ID_FIRST_USER: "a8100b26-82e7-427e-b731-9ccbabcf62f5"
         }
 
     def create_channel(self):
@@ -56,6 +58,10 @@ class Channels:
 
         except requests.exceptions.RequestException as e:
             logger.error(f"Ошибка при создании канала: {e}")
+        except requests.exceptions.InvalidJSONError as e:
+            logger.error(f"Не верный формат JSON: {e}")
+        except requests.exceptions.InvalidHeader as e:
+            logger.error(f"Не верный headers: {e}")
         
 
                 
@@ -90,6 +96,38 @@ class Channels:
             
         except requests.exceptions.RequestException as e:
             logger.error(f"Ошибка при проверке канала: {e}")
+        except requests.exceptions.InvalidJSONError as e:
+            logger.error(f"Не верный формат JSON: {e}")
+        except requests.exceptions.ReadTimeout as e:
+            logger.error(f"Таймаут при отправке данных канала: {e}")
+
+    def archive_channel_by_id(self):
+        url = f"{BASE_URL}channels/{self.channel_id}/toggle-archive-status"
+        headers = {
+            **self.default_headers,
+            AUTHORIZATION_HEADER: f"Bearer {self.refresh_token}"
+        }
+
+        try: 
+            response = requests.patch(url, headers=headers)
+            response.raise_for_status()
+            channel_data = response.json()
+
+            channel_name = channel_data.get("payload", {}).get("name")
+            is_archived = channel_data.get("payload", {}).get("isArchived", True)
+            
+            if is_archived:
+                logger.info(f"Канал '{channel_name}' (ID: {self.channel_id}) успешно архивирован")
+            else:
+                logger.error(f"Не удалось архивировать канал '{channel_name}' (ID: {self.channel_id})")
+                
+            return channel_data
+            
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Ошибка при архивации канала ID {self.channel_id}: {e}")
+        except requests.exceptions.InvalidJSONError as e:
+            logger.error(f"Не верный формат JSON: {e}")
+
 
     def delete_channel_by_id(self):
         headers = {
@@ -106,5 +144,7 @@ class Channels:
             logger.info(f"Канал {self.channel_id} удален")
         except requests.exceptions.RequestException as e:
             logger.error(f"Ошибка при удалении канала:({self.channel_id}), {e}")
+        except requests.exceptions.InvalidJSONError as e:
+            logger.error(f"Не верный формат JSON: {e}")
             
         

@@ -74,8 +74,3 @@ def browser_2():
     
     driver.quit()
     shutil.rmtree(user_data_dir)
-
-
-
-
-
