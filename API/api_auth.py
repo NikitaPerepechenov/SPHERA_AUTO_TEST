@@ -1,6 +1,6 @@
 import requests
 import json
-from payloads import AuthorizationPayload as auth
+from API.payloads import AuthorizationPayload as auth
 
 BASE_URL = "https://api.dev.sphera.work/api/v1"
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"

@@ -688,7 +688,7 @@ class MainPage(BasePage):
             ), ">>> Message assert ERROR, second try, message not found<<<"
 
     def check_last_send_message(self, random_message_text):
-        self.scroll_chat_to_bottom()
+        self.scroll_chat_to_bottom_instantly()
         found = False
         for _ in range(10):
             messages = self.visibility_of_elements(

@@ -5,6 +5,7 @@ from pages.main_page import MainPage
 from tests.websocket_client import WebSocket
 from pages.login_page import AuthorizationPage
 
+
 def generate_random_string(length=8):
     letters_and_digits = string.ascii_letters + string.digits
     return ''.join(random.choice(letters_and_digits) for _ in range(length))
@@ -39,12 +40,6 @@ def test_04message_delivery(browser_1, browser_2):
     sender.write_a_message(random_message_text)
     sender.send_message_user(random_message_text)
     sender.check_last_send_message(random_message_text)
-
-    #Отключение WebSocket
-    web.disconnect_websocket()
-
-    # Подключение к WebSocket
-    web.connect_websocket_second_user()
 
     # Авторизация получателя
     receiver_auth.email_field(email2)
