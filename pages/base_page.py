@@ -1,9 +1,17 @@
+import os
+from dotenv import load_dotenv
 from utils.logger import Logger
-from selenium.webdriver.common.by import By
 from selenium.common import TimeoutException
 from utils.main_page_locators import LocatorsMainPage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+load_dotenv()
+
+BASE_URL = os.getenv("BASE_URL")
+CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"
+SIGN_IN = BASE_URL + "/auth/sign-in"
+DEVICE_ID = os.getenv("DEVICE_ID")
 
 logger = Logger()
 
@@ -14,6 +22,9 @@ class BasePage(object):
         
     def refresh_page(self):
         self.browser.refresh() 
+
+    def browser_quit(self):
+        self.browser.quit()
 
     def scroll_chat_to_up(self):
         scroll = self.wait_element(

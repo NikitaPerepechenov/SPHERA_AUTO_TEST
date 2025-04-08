@@ -1,13 +1,18 @@
+import os 
 import requests
+from dotenv import load_dotenv
 from utils.logger import Logger
 from api_auth import Authorization
 from payloads import ChannelsPayload as channels
+
+load_dotenv()
+
 # URL
-BASE_URL = "https://api.dev.sphera.work/api/v1/"
-CHANNELS_CREATE_URL = BASE_URL + "channels/create"
-GET_CHANNELS = BASE_URL + "channels/users-channels"
-DELETE_CHANNEL_BY_ID = BASE_URL + "channels/delete/" # ID
-ARCHIVE_CHANNEL_BY_ID = BASE_URL + "channels/""/toggle-archive-status"
+BASE_URL = os.getenv("BASE_URL")
+CHANNELS_CREATE_URL = BASE_URL + "/channels/create"
+GET_CHANNELS = BASE_URL + "/channels/users-channels"
+DELETE_CHANNEL_BY_ID = BASE_URL + "/channels/delete/" # ID
+ARCHIVE_CHANNEL_BY_ID = BASE_URL + "/channels/""/toggle-archive-status"
 
 #HEADERS
 AUTHORIZATION_HEADER = "authorization"
@@ -17,15 +22,15 @@ HEADER_DEVICE_ID_SECOND_USER = "device-id"
 
 logger = Logger()
 
-class Channels:
+class Channels(Authorization):
     def __init__(self):
         self.auth = Authorization()
 
-        self.refresh_token = self.auth.get_refresh_token_first_user()
+        self.refresh_token = self.get_refresh_and_auth_token()
         
         self.default_headers = {
             CONTENT_TYPE_HEADER: "application/json",
-            HEADER_DEVICE_ID_FIRST_USER: "a8100b26-82e7-427e-b731-9ccbabcf62f5"
+            HEADER_DEVICE_ID_FIRST_USER: os.getenv("DEVICE_ID_FIRST")
         }
 
     def create_channel(self):
@@ -102,7 +107,7 @@ class Channels:
             logger.error(f"Таймаут при отправке данных канала: {e}")
 
     def archive_channel_by_id(self):
-        url = f"{BASE_URL}channels/{self.channel_id}/toggle-archive-status"
+        url = f"{BASE_URL}/channels/{self.channel_id}/toggle-archive-status"
         headers = {
             **self.default_headers,
             AUTHORIZATION_HEADER: f"Bearer {self.refresh_token}"

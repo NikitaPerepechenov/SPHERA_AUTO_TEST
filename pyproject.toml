@@ -14,6 +14,7 @@ webdriver-manager = "^4.0.2"
 websocket-client = "^1.8.0"
 requests = "^2.32.3"
 pytest-asyncio = "^0.26.0"
+dotenv = "^0.9.9"
 
 
 [build-system]
