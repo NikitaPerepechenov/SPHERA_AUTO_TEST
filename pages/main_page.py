@@ -1,12 +1,10 @@
+import time
 import random
 from utils.logger import Logger
 from pages.base_page import BasePage
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from utils.main_page_locators import LocatorsMainPage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support import expected_conditions as EC
 
 
 logger = Logger()
@@ -248,7 +246,7 @@ class MainPage(BasePage):
             action.move_to_element(message).perform()
 
             self.visibility_of_element(
-                (self.locators.LINKS_PREVIEV_MESSAGE)
+                self.locators.LINKS_PREVIEV_MESSAGE
             )
             logger.info('Превью ссылки отображается в сообщении')
         except Exception as e:
@@ -355,6 +353,7 @@ class MainPage(BasePage):
             self.element_to_be_clickable(
                 self.locators.SEND_MESSAGE_BUTTON).click()
             
+            
             self.invis_of_element(self.locators.SEND_MESSAGE_BUTTON)
 
             messages = self.visibility_of_elements(self.locators.LAST_MESSAGE)[-1]
@@ -391,13 +390,12 @@ class MainPage(BasePage):
                 logger.info(f"Выбрано сообщение {len(messages) + message_idx + 1} из {len(messages)}")
                 
                
-                # self.scroll_chat_to_bottom()
+                
                 action = ActionChains(self.browser)
                 action.move_to_element(message).pause(1).perform()
                 
                 other_buttons = self.wait_elements(self.locators.OTHER_ACTIONS)
-                # other_buttons = self.wait_for_selector_inside_element(message, self.locators.OTHER_ACTIONS)
-                # print('<<><', other_buttons)
+               
                 if other_buttons:
                     try:
                         other_buttons[-1].click()
@@ -689,6 +687,7 @@ class MainPage(BasePage):
 
     def check_last_send_message(self, random_message_text):
         self.scroll_chat_to_bottom_instantly()
+        time.sleep(1)
         found = False
         for _ in range(10):
             messages = self.visibility_of_elements(
@@ -698,6 +697,8 @@ class MainPage(BasePage):
                 logger.info(f"Сообщение '{random_message_text}' найдено ")
                 break
             
+        actions = ActionChains(self.browser)
+        actions.click(messages[-1]).perform()
         if not found:
             raise AssertionError(f"Текст '{random_message_text}' не найден")
 

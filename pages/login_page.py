@@ -1,6 +1,6 @@
-from utils.locators_auth_page import AuthorizationLocators
 from utils.logger import Logger
 from pages.base_page import BasePage
+from utils.locators_auth_page import AuthorizationLocators
 
 logger = Logger()
 
