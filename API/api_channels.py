@@ -1,9 +1,9 @@
 import os 
 import requests
+from api_auth import AuthorizationApi
 from dotenv import load_dotenv
 from utils.logger import Logger
-from api_auth import Authorization
-from payloads import ChannelsPayload as channels
+from payloads import AuthorizationPayloadSender, ChannelsPayload as channels
 
 load_dotenv()
 
@@ -22,12 +22,12 @@ HEADER_DEVICE_ID_SECOND_USER = "device-id"
 
 logger = Logger()
 
-class Channels(Authorization):
+class Channels(AuthorizationApi):
     def __init__(self):
-        self.auth = Authorization()
-
-        self.refresh_token = self.get_refresh_and_auth_token()
-        
+        super().__init__()
+        self.set_auth(AuthorizationPayloadSender())
+        self.refresh_token = self.get_refresh_token()
+        self.auth_token = self.get_auth_token()
         self.default_headers = {
             CONTENT_TYPE_HEADER: "application/json",
             HEADER_DEVICE_ID_FIRST_USER: os.getenv("DEVICE_ID_FIRST")
@@ -151,5 +151,3 @@ class Channels(Authorization):
             logger.error(f"Ошибка при удалении канала:({self.channel_id}), {e}")
         except requests.exceptions.InvalidJSONError as e:
             logger.error(f"Не верный формат JSON: {e}")
-            
-        

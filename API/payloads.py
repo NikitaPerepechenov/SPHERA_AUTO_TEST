@@ -9,7 +9,7 @@ def generate_random_string(length=8):
 name = generate_random_string(5)
 description = generate_random_string(5)
 
-class AuthorizationPayload:
+class AuthorizationPayloadSender:
     device_id = os.getenv("DEVICE_ID_FIRST")
     check_and_send_payload = {
         "email": "qa1@fusion.ru"
@@ -20,7 +20,7 @@ class AuthorizationPayload:
         "email": "qa1@fusion.ru"
     }
 
-class AuthorizationPayload2:
+class AuthorizationPayloadReceiver:
     device_id = os.getenv("DEVICE_ID_SECOND")
     check_and_send_payload = {
         "email": "qa2@fusion.ru"
