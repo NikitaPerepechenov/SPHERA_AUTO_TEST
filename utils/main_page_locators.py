@@ -42,7 +42,7 @@ class LocatorsMainPage:
     DISCUSSIONS_MESSAGE = (By. CSS_SELECTOR, '[data-placeholder="Ответить в обсуждение"]')
     DISCUSSIONS_MODAL = (By. CLASS_NAME, "thread-content-container")
     DISCUSSIONS_MODAL_CLOSE = (By. CLASS_NAME, "thread-close-button")
-    DISCUSSIONS_UNDER_MESSAGE = (By. CLASS_NAME, "hrpeaa")
+    DISCUSSIONS_UNDER_MESSAGE = (By. CLASS_NAME, "thread-messages__count") # [0]
 
     CREATE_CHANNEL_BUTTON = (By.CLASS_NAME, "sphr-button__icon") # [1]
     CHANNEL_NAME_FIELD = (By.ID, "name")
@@ -51,7 +51,7 @@ class LocatorsMainPage:
 
 
     ALL_CHANNELS = (By. CLASS_NAME, "spheraui-block-field__text-container")
-    BACK_ARROW = (By. CLASS_NAME, "sc-ckEbSK.bISGyO")
+    MAIN_LOGO = (By. CLASS_NAME, "left-sidebar__logo-image")
     CHANNELS_LIST = (By.CSS_SELECTOR, '[class="spheraui-block-field__text"]')
 
     HEADER_BUTTON = (By.CLASS_NAME, "header__button")

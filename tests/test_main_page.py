@@ -63,7 +63,7 @@ def test_07_create_channel_and_archive_channel(browser):
     main.archive_channel_notifications_check() # Проверка уведомления об архивировании канала
     main.button_all_archive_channels() # Открытие вкладки Архив 
     main.archive_channel_check(name_channel) # Проверка заархивированного канала 
-    main.back() 
+    main.main_logo()
  
 @pytest.mark.s
 def test_08_enter_random_channel_write_message_edit_reply_and_delete_message(browser):

@@ -185,13 +185,10 @@ class MainPage(BasePage):
 
 
 
-    def back(self):
+    def main_logo(self):
         """Стрелочка назад"""
         self.visibility_of_element(
-            self.locators.BACK_ARROW
-        )
-        self.element_to_be_clickable(
-            self.locators.BACK_ARROW
+            self.locators.MAIN_LOGO
         ).click()
 
 
@@ -490,9 +487,9 @@ class MainPage(BasePage):
                 logger.info("Обсуждение закрыто")
 
                 logger.info("Проверка отображение обсуждений под сообщением")
-                self.visibility_of_element(
+                self.visibility_of_elements(
                     self.locators.DISCUSSIONS_UNDER_MESSAGE
-                )
+                )[0]
                 logger.info("Обсуждения отображаются под сообщением")    
                
                 return True
