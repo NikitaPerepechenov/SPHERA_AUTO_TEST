@@ -1,17 +1,14 @@
 import pytest
-import random
-import string
+from faker import Faker
 from pages.main_page import MainPage
 from utils.websocket_client import WebSocket
 from pages.login_page import AuthorizationPage
-from API.payloads import AuthorizationPayload2 
+from API.payloads import AuthorizationPayloadReceiver 
 
-auth = AuthorizationPayload2
-def generate_random_string(length=8):
-    letters_and_digits = string.ascii_letters + string.digits
-    return ''.join(random.choice(letters_and_digits) for _ in range(length))
+auth = AuthorizationPayloadReceiver
 
-random_message_text = generate_random_string(5)
+fake = Faker('ru_RU')
+random_message_text = fake.sentence()
 
 email = "qa1@fusion.ru"
 email2 = "qa2@fusion.ru"
@@ -28,7 +25,8 @@ def test_04message_delivery(browser_1, browser_2):
     receiver_auth = AuthorizationPage(browser_2)
 
     # Подключение к WebSocket
-    web.connect_websocket_with_user()
+    auth = AuthorizationPayloadReceiver()
+    web.connect_websocket_with_user(auth)
 
     # Авторизация отправителя
     auth_page.email_field(email)

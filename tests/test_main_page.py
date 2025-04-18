@@ -1,18 +1,13 @@
 import pytest
-import random
-import string
+from faker import Faker
 from pages.main_page import MainPage
 from pages.login_page import AuthorizationPage
 
-
-def generate_random_string(length=8):
-    letters_and_digits = string.ascii_letters + string.digits
-    return ''.join(random.choice(letters_and_digits) for _ in range(length))
-
+fake = Faker('ru_RU')
 email = "qa1@fusion.ru"
 code = "654321"
 
-@pytest.mark.s
+@pytest.mark.u
 def test_05_authorization(browser):
     auth_page = AuthorizationPage(browser)
     auth_page.email_field(email) # Ввод email
@@ -24,9 +19,9 @@ def test_05_authorization(browser):
 def test_06_create_channel_write_message_delete_channel(browser):  # Передаем фикстуру browser    
     main = MainPage(browser)  # Создаем экземпляр MainPage, передавая browser
 
-    name_channel = generate_random_string(5) 
-    info_channel = generate_random_string(5) 
-    random_message_text = generate_random_string(5)
+    name_channel = fake.word() + "-" + fake.word()
+    info_channel = fake.word() + "-" + fake.word()
+    random_message_text = fake.sentence()
 
     main.decline_notifications() 
     main.create_channel_button() # Нажатие кнопки 'Создать канал'
@@ -52,8 +47,8 @@ def test_07_create_channel_and_archive_channel(browser):
     
     main = MainPage(browser)
 
-    name_channel = generate_random_string(5)
-    info_channel = generate_random_string(5)
+    name_channel = fake.word() + "-" + fake.word()
+    info_channel = fake.word() + "-" + fake.word()
     
     main.create_channel_button() # Нажатие кнопки 'Создать канал'
     main.enter_name_channel(name_channel) # Ввод названия канала
@@ -74,10 +69,10 @@ def test_07_create_channel_and_archive_channel(browser):
 def test_08_enter_random_channel_write_message_edit_reply_and_delete_message(browser):
     main = MainPage(browser)
 
-    random_message_text = generate_random_string(5)
-    edit_message = generate_random_string(5)
-    rand_reply = generate_random_string(5)
-    disc_message = generate_random_string(5)
+    random_message_text = fake.sentence()
+    edit_message = fake.word()
+    rand_reply = fake.sentence()
+    disc_message = fake.word()
 
     main.enter_in_random_channel() # Вход в рандомный канал
     main.scroll_chat_to_bottom()

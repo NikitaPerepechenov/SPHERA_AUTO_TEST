@@ -1,20 +1,24 @@
 import pytest
 import random
 import string
+from faker import Faker
 from pages.user_profile_page import UserProfile
+
+fake = Faker('ru_RU')
+
 
 def generate_random_string(length=8):
     letters_and_digits = string.ascii_letters + string.digits
     return ''.join(random.choice(letters_and_digits) for _ in range(length))
 
-
+@pytest.mark.u
 def test_09_open_user_profile_and_redact_info(browser): # Передаем фикстуру browser
     
     user = UserProfile(browser) # Создаем экземпляр UserProfile, передавая browser
     
-    last_name = generate_random_string(10)# Генерация рандомной Фамилии пользователя
-    first_name = generate_random_string(10)# Генерация рандомного Имени пользователя
-    surname = generate_random_string(10) # Генерация рандомного Отчества пользователя
+    last_name = fake.last_name()# Генерация рандомной Фамилии пользователя
+    first_name = fake.first_name()# Генерация рандомного Имени пользователя
+    surname = fake.middle_name_male() # Генерация рандомного Отчества пользователя
     info = generate_random_string(10) # Генерация рандомной информации в поле О себе
     
     user.open_user_profile_modal_window() # Клик по аватарке пользователя в Хедере приложения
