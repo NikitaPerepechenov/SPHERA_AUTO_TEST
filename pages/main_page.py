@@ -11,7 +11,8 @@ logger = Logger()
 
 class MainPage(BasePage):
     def __init__(self, browser):
-        """Инициализация класса.
+        """
+        Инициализация класса.
 
         Объект браузера (WebDriver).
         """
