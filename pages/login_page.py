@@ -1,21 +1,25 @@
 from utils.logger import Logger
 from pages.base_page import BasePage
+from selenium.webdriver.common.keys import Keys
 from utils.locators_auth_page import AuthorizationLocators
+from selenium.webdriver.common.action_chains import ActionChains
+
 
 logger = Logger()
+
 
 class AuthorizationPage(BasePage):
     def __init__(self, browser):
         self.browser = browser
+        self.loc = AuthorizationLocators
         super(AuthorizationPage, self).__init__(browser)
-        self.locators = AuthorizationLocators
 
     def email_field(self, email):
         """Ввод email"""
         try:
             logger.info(f"Ввод email: {email}")
             self.element_to_be_clickable(
-                self.locators.EMAIL_FIELD
+                self.loc.EMAIL_FIELD
             ).send_keys(email)
             logger.info(f"Email: {email} введен")
         except Exception as e:
@@ -27,7 +31,7 @@ class AuthorizationPage(BasePage):
         try:
             logger.info("Клик по кнопке 'Войти'")
             self.element_to_be_clickable(
-                self.locators.SUBMIT_BUTTON
+                self.loc.SUBMIT_BUTTON
             ).click()
             logger.info("Кнопка 'Войти' нажата")
         except Exception as e:
@@ -38,7 +42,7 @@ class AuthorizationPage(BasePage):
         try:
             logger.info(f"Ввод одноразового кода: {code}")
             self.wait_element(
-                self.locators.ONE_TIME_CODE
+                self.loc.ONE_TIME_CODE
             ).send_keys(code)
             logger.info(f"Код: {code} введен")
         except Exception as e:
@@ -49,9 +53,35 @@ class AuthorizationPage(BasePage):
         try:
             logger.info("Клик по кнопке 'Войти'")
             self.visibility_of_elements(
-                self.locators.ENTER_WORKSPACE_BUTTON)[1].click()
+                self.loc.ENTER_WORKSPACE_BUTTON)[1].click()
             logger.info("Кнопка 'Войти' нажата")
         except Exception as e:
             logger.error(f"Не удалось нажать кнопку 'Войти': {e}")
             raise Exception (f"Не удалось нажать кнопку 'Войти': {e}")
     
+
+    def test_invalid_emails(self, invalid_emails):
+        action = ActionChains(self.browser)
+
+        for index, invalid_email in enumerate(invalid_emails, 6):
+            
+            email_field = self.visibility_of_element(
+                self.loc.EMAIL_FIELD
+            )
+
+            email_field.click()
+            
+            action.click(email_field)
+            action.double_click(email_field).perform()
+            email_field.send_keys(Keys.BACKSPACE)
+                
+            email_field.send_keys(invalid_email)
+            email_field.send_keys(Keys.ENTER)
+        
+            try:
+                error_message = self.visibility_of_element(
+                    self.loc.EMAIL_ERROR_MESSAGE
+                )
+                logger.info(f"Тест {index}: Для '{invalid_email}' получена ошибка: {error_message.text}")
+            except:
+                logger.error(f"Тест {index}: Для '{invalid_email}' ошибка не обнаружена!")
