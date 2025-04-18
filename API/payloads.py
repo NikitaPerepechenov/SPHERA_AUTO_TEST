@@ -1,13 +1,10 @@
 import os
-import random
-import string
+from faker import Faker
 
-def generate_random_string(length=8):
-    letters_and_digits = string.ascii_letters + string.digits
-    return ''.join(random.choice(letters_and_digits) for _ in range(length))
+fake = Faker('ru_RU')
 
-name = generate_random_string(5)
-description = generate_random_string(5)
+name = fake.word()
+description = fake.word()
 
 class AuthorizationPayloadSender:
     device_id = os.getenv("DEVICE_ID_FIRST")
