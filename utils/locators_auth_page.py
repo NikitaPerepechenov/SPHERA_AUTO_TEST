@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 class AuthorizationLocators():
-    EMAIL_FIELD = (By.CSS_SELECTOR, "[name='email']")
+    EMAIL_FIELD = (By.NAME, "email")
 
     EMAIL_ERROR_MESSAGE = (By.CLASS_NAME, "sphr-input__helper-text--bottom")
     
