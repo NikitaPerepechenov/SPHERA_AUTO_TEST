@@ -1,5 +1,5 @@
-from api_channels import Channels
 import pytest
+from api_channels import Channels
 
 channels = Channels()
 
