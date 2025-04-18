@@ -35,7 +35,7 @@ def browser_1():
     options = Options()
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--remote-debugging-port=34222")
+    # options.add_argument("--remote-debugging-port=34222")
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
 
@@ -60,7 +60,7 @@ def browser_2():
     options = Options()
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--remote-debugging-port=34223")
+    # options.add_argument("--remote-debugging-port=34223")
     options.add_argument("--headless")  
 
     user_data_dir = tempfile.mkdtemp(prefix=f"chrome_receiver_{uuid.uuid4()}_")

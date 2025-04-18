@@ -1,0 +1,23 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "/Users/fusiontech/Desktop/SPHERA_AUTO_TEST/.venv/bin/python",
+            "module": "pytest",
+            // "program": "-v -s -m chatik",
+            "args": [
+                "-v", 
+                "-s",
+                "-m chatik"
+            ],
+            "console": "integratedTerminal"
+        }
+    ]
+}

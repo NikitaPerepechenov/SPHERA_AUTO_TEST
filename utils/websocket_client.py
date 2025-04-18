@@ -1,9 +1,10 @@
 import socketio
 import json
 from datetime import datetime
+from API.payloads import AuthorizationPayloadReceiver
 from utils.logger import Logger
+from API.api_auth import AuthorizationApi
 from dotenv import load_dotenv
-from API.api_auth import Authorization
 import os
 
 
@@ -17,7 +18,7 @@ BASE_URL = os.getenv("BASE_URL")
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"
 SIGN_IN = BASE_URL + "/auth/sign-in"
 
-class WebSocket(Authorization):
+class WebSocket(AuthorizationApi):
     def __init__(self):
         super().__init__()
 
@@ -43,10 +44,12 @@ class WebSocket(Authorization):
 
 
     def tokens(self):
-        self.get_refresh_and_auth_token()
+        self.get_refresh_token()
+        self.get_auth_token()
 
-    def connect_websocket_with_user(self):
+    def connect_websocket_with_user(self, auth):
         """Подключение к WebSocket"""
+        self.set_auth(auth)
         self.tokens()
         logger.info("Получение Токенов...")
         logger.info(f"{self.auth_token} <<<< AuthToken")
