@@ -520,9 +520,10 @@ class MainPage(BasePage):
         """ Нажатие по плюсику Написать сообщение """
         try:
             logger.info("Нажатие по плюсику написать сообщение")
-            self.wait_elements(
+            a = self.visibility_of_elements(
                 self.locators.CREATE_MESSAGE_BUTTON
-            )[2].click()
+            )[2]
+            self.element_to_be_clickable(a).click()
             logger.info("Нажатие по плюсику успешно")
         except Exception as e:
             raise logger.error(f"Не удалось нажать по плюсику Написать сообщение {e}")

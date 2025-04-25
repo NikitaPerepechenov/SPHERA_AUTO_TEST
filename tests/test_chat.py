@@ -13,7 +13,7 @@ random_message_text = fake.sentence()
 email = "qa1@fusion.ru"
 email2 = "qa2@fusion.ru"
 code = "654321"
-user = "Senders"
+user = "Recieve"
 
 @pytest.mark.chatik
 def test_01_message_delivery(browser_1, browser_2):
@@ -32,6 +32,7 @@ def test_01_message_delivery(browser_1, browser_2):
     auth_page.email_field(email)
     auth_page.submit_button()
     auth_page.one_time_code(code)
+    auth_page.enter_workspace()
     auth_page.enter_space_button()
 
     # Отправка сообщения

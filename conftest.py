@@ -70,6 +70,7 @@ def browser_2():
     driver = webdriver.Chrome(options=options)
     driver.get("https://app.dev.sphera.work/")
     
+    
     yield driver
     
     driver.quit()

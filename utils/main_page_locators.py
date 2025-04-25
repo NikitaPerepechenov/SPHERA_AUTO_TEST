@@ -13,7 +13,7 @@ class LocatorsMainPage:
     MESSAGE_INPUT = (By.CLASS_NAME, "ql-editor")
     MESSAGE_FIELD = (By.CSS_SELECTOR, '[aria-owns="quill-mention-list"]')
     
-    CREATE_MESSAGE_BUTTON = CREATE_CHANNEL_BUTTON = (By.CLASS_NAME, "sphr-button__icon") # [2]
+    CREATE_MESSAGE_BUTTON = CREATE_CHANNEL_BUTTON = (By.CLASS_NAME, "spheraui-collapsable-block__header-extra-option") # [2]
     SEND_MESSAGE_BUTTON = (By.CLASS_NAME, 'send-button__active')
     SEND_MESSAGE_DISCUSSIONS = (By. CLASS_NAME, "iSasNz")
     

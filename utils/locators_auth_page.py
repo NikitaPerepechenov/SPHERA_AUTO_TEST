@@ -9,5 +9,6 @@ class AuthorizationLocators():
 
     ONE_TIME_CODE = (By. ID, "one-time-code")
 
-    ENTER_WORKSPACE_BUTTON = (By. CLASS_NAME, "sphr-button__title")
+    ENTER_WORKSPACE_BUTTON = (By. CLASS_NAME, 'sphr-button__title')
 
+    CHOICE_SECOND_WORKSPACE = (By. NAME, 'agree')

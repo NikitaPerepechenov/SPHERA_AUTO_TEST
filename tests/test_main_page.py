@@ -7,15 +7,16 @@ fake = Faker('ru_RU')
 email = "qa1@fusion.ru"
 code = "654321"
 
-@pytest.mark.u
+@pytest.mark.s
 def test_02_authorization(browser):
     auth_page = AuthorizationPage(browser)
     auth_page.email_field(email) # Ввод email
     auth_page.submit_button() # Нажатие кнопки 'Получить код'
     auth_page.one_time_code(code) # Ввод одноразового кода
+    auth_page.enter_workspace()
     auth_page.enter_space_button() # Вход в пространство 
 
-
+@pytest.mark.s
 def test_03_create_channel_write_message_delete_channel(browser):  # Передаем фикстуру browser    
     main = MainPage(browser)  # Создаем экземпляр MainPage, передавая browser
 
@@ -42,7 +43,7 @@ def test_03_create_channel_write_message_delete_channel(browser):  # Перед�
     # main.delete_channel_notifications_check() # Проверка уведомления об удалении канала
     main.check_channel_deleted(name_channel) # Проверка удаления канала из левого сайд бара
 
-
+@pytest.mark.s
 def test_04_create_channel_and_archive_channel(browser):
     
     main = MainPage(browser)

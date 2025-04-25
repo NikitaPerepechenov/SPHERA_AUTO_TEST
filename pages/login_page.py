@@ -3,7 +3,7 @@ from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 from utils.locators_auth_page import AuthorizationLocators
 from selenium.webdriver.common.action_chains import ActionChains
-
+import time
 
 logger = Logger()
 
@@ -52,12 +52,26 @@ class AuthorizationPage(BasePage):
         """Клик по кнопке 'Войти'"""
         try:
             logger.info("Клик по кнопке 'Войти'")
-            self.visibility_of_elements(
-                self.loc.ENTER_WORKSPACE_BUTTON)[1].click()
+            a = self.visibility_of_elements(
+                self.loc.ENTER_WORKSPACE_BUTTON)[1]
+            self.element_to_be_clickable(a).click()
             logger.info("Кнопка 'Войти' нажата")
         except Exception as e:
             logger.error(f"Не удалось нажать кнопку 'Войти': {e}")
             raise Exception (f"Не удалось нажать кнопку 'Войти': {e}")
+        
+
+    def enter_workspace(self):
+        """ Выбор рабочего пространства """
+        try:
+            logger.info("Выбор рабочего пространства 2 ")
+            self.wait_elements(
+                self.loc.CHOICE_SECOND_WORKSPACE)[0].click()
+            self.wait_elements(
+                self.loc.CHOICE_SECOND_WORKSPACE)[1].click()
+            logger.info("Рабочее пространство 2 выбрано")
+        except Exception as e:
+            logger.error(f"Не удалось выбрать рабочее пространство: {e}")
     
 
     def test_invalid_emails(self, invalid_emails):
