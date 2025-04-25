@@ -21,6 +21,6 @@ invalid_emails = [
 ]
 
 @pytest.mark.qwe
-def test_12_negative_auth(browser):
+def test_06_negative_auth(browser):
     auth_page = AuthorizationPage(browser)
     auth_page.test_invalid_emails(invalid_emails)

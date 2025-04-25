@@ -16,7 +16,7 @@ code = "654321"
 user = "Senders"
 
 @pytest.mark.chatik
-def test_04message_delivery(browser_1, browser_2):
+def test_01_message_delivery(browser_1, browser_2):
     web = WebSocket()
     
     sender = MainPage(browser_1)  # Отправитель
