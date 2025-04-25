@@ -20,7 +20,8 @@ invalid_emails = [
     "user@.com"                            # Пустой домен
 ]
 
-@pytest.mark.qwe
-def test_06_negative_auth(browser):
-    auth_page = AuthorizationPage(browser)
+@pytest.mark.negative
+@pytest.mark.run(order=100)
+def test_06_negative_auth(browser_1):
+    auth_page = AuthorizationPage(browser_1)
     auth_page.test_invalid_emails(invalid_emails)
