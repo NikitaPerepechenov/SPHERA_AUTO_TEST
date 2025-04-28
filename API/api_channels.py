@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from utils.logger import Logger
 from payloads import AuthorizationPayloadSender, ChannelsPayload as channels
 
-load_dotenv()
+load_dotenv(".env.dev")
 
 # URL
 BASE_URL = os.getenv("BASE_URL_API")

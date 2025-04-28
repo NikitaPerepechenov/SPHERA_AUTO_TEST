@@ -6,7 +6,7 @@ from utils.main_page_locators import LocatorsMainPage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-load_dotenv()
+load_dotenv('.env.dev')
 
 BASE_URL = os.getenv("BASE_URL_API")
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"

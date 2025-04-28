@@ -9,7 +9,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
-load_dotenv()
+load_dotenv(".env.dev")
 
 @pytest.fixture(scope="session")
 def browser():

@@ -3,7 +3,7 @@ import json
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv(".env.dev")
 
 
 BASE_URL = os.getenv("BASE_URL_API")
