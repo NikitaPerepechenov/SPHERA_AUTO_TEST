@@ -14,7 +14,7 @@ sio = socketio.Client()
 logger = Logger()
 
 
-BASE_URL = os.getenv("BASE_URL")
+BASE_URL = os.getenv("BASE_URL_API_DEV")
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"
 SIGN_IN = BASE_URL + "/auth/sign-in"
 
@@ -58,12 +58,12 @@ class WebSocket(AuthorizationApi):
 
         try:
             sio.connect(
-                os.getenv("WEBSOCKET_DEV"),
+                "https://api.dev.sphera.work/api/v1",
                 transports=['websocket'],
                 auth={
                     'auth_token': self.auth_token,
                     'token': self.refresh_token,
-                    'deviceId': os.getenv("DEVICE_ID_SECOND"),
+                    'deviceId': os.getenv("DEVICE_ID_SECOND_DEV"),
                     'activeCompanies': '[]'
                 }
             )
