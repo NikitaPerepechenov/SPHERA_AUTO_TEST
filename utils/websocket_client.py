@@ -4,17 +4,17 @@ from datetime import datetime
 from API.payloads import AuthorizationPayloadReceiver
 from utils.logger import Logger
 from API.api_auth import AuthorizationApi
-from dotenv import load_dotenv
 import os
+from dotenv import dotenv_values
 
-
-load_dotenv(".env.dev")
+dotenv_values(".env.dev")
+config = dotenv_values(".env.dev")
 
 sio = socketio.Client()
 logger = Logger()
 
 
-BASE_URL = os.getenv("BASE_URL_API")
+BASE_URL = config.get("BASE_URL_API")
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"
 SIGN_IN = BASE_URL + "/auth/sign-in"
 
@@ -63,7 +63,7 @@ class WebSocket(AuthorizationApi):
                 auth={
                     'auth_token': self.auth_token,
                     'token': self.refresh_token,
-                    'deviceId': os.getenv("DEVICE_ID_SECOND"),
+                    'deviceId': config.get("DEVICE_ID_SECOND"),
                     'activeCompanies': '[]'
                 }
             )

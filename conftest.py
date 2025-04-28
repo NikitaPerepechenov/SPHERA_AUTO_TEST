@@ -4,12 +4,13 @@ import uuid
 import shutil
 import pytest
 import tempfile
-from dotenv import load_dotenv
+from dotenv import dotenv_values
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
-load_dotenv(".env.dev")
+dotenv_values(".env.dev")
+config = dotenv_values(".env.dev")
 
 @pytest.fixture(scope="session")
 def browser():
@@ -26,7 +27,7 @@ def browser():
     service = Service(executable_path="/snap/bin/chromedriver") # указать свой путь к драйверу
     driver = webdriver.Chrome(options=options)
 
-    driver.get(os.getenv("URL_SPHERA"))
+    driver.get(config.get("URL_SPHERA"))
     driver.maximize_window()
     yield driver
 
@@ -48,7 +49,7 @@ def browser_1():
     service = Service(executable_path="/snap/bin/chromedriver") # указать свой путь к драйверу
     driver = webdriver.Chrome(options=options)
 
-    driver.get(os.getenv("URL_SPHERA"))
+    driver.get(config.get("URL_SPHERA"))
     driver.maximize_window()
     yield driver
 
@@ -72,7 +73,7 @@ def browser_2():
     service = Service(executable_path="/snap/bin/chromedriver") # указать свой путь к драйверу
     driver = webdriver.Chrome(options=options)
     
-    driver.get(os.getenv("URL_SPHERA"))
+    driver.get(config.get("URL_SPHERA"))
     driver.maximize_window()
     yield driver
     

@@ -1,5 +1,6 @@
 import os
 from faker import Faker
+from utils.config import config
 
 fake = Faker('ru_RU')
 
@@ -7,7 +8,7 @@ name = fake.word()
 description = fake.word()
 
 class AuthorizationPayloadSender:
-    device_id = os.getenv("DEVICE_ID_FIRST")
+    device_id = config.get("DEVICE_ID_FIRST")
     check_and_send_payload = {
         "email": "qa1@fusion.ru"
     }
@@ -18,7 +19,7 @@ class AuthorizationPayloadSender:
     }
 
 class AuthorizationPayloadReceiver:
-    device_id = os.getenv("DEVICE_ID_SECOND")
+    device_id = config.get("DEVICE_ID_SECOND")
     check_and_send_payload = {
         "email": "qa2@fusion.ru"
     }
