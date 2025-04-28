@@ -8,13 +8,13 @@ from dotenv import load_dotenv
 import os
 
 
-load_dotenv()
+load_dotenv('.env_dev')
 
 sio = socketio.Client()
 logger = Logger()
 
 
-BASE_URL = os.getenv("BASE_URL_API_DEV")
+BASE_URL = os.getenv("BASE_URL_API")
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"
 SIGN_IN = BASE_URL + "/auth/sign-in"
 
@@ -63,7 +63,7 @@ class WebSocket(AuthorizationApi):
                 auth={
                     'auth_token': self.auth_token,
                     'token': self.refresh_token,
-                    'deviceId': os.getenv("DEVICE_ID_SECOND_DEV"),
+                    'deviceId': os.getenv("DEVICE_ID_SECOND"),
                     'activeCompanies': '[]'
                 }
             )

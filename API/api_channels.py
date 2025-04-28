@@ -5,10 +5,10 @@ from dotenv import load_dotenv
 from utils.logger import Logger
 from payloads import AuthorizationPayloadSender, ChannelsPayload as channels
 
-load_dotenv()
+load_dotenv('.env_dev')
 
 # URL
-BASE_URL = os.getenv("BASE_URL_API_DEV")
+BASE_URL = os.getenv("BASE_URL_API")
 CHANNELS_CREATE_URL = BASE_URL + "/channels/create"
 GET_CHANNELS = BASE_URL + "/channels/users-channels"
 DELETE_CHANNEL_BY_ID = BASE_URL + "/channels/delete/" # ID
@@ -30,7 +30,7 @@ class Channels(AuthorizationApi):
         self.auth_token = self.get_auth_token()
         self.default_headers = {
             CONTENT_TYPE_HEADER: "application/json",
-            HEADER_DEVICE_ID_FIRST_USER: os.getenv("DEVICE_ID_FIRST_DEV")
+            HEADER_DEVICE_ID_FIRST_USER: os.getenv("DEVICE_ID_FIRST")
         }
 
     def create_channel(self):

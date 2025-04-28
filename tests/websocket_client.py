@@ -6,16 +6,16 @@ from datetime import datetime
 from utils.logger import Logger
 from API.api_auth import Authorization
 
-load_dotenv()
+load_dotenv('.env_dev')
 sio = socketio.Client()
 logger = Logger()
 
 
-BASE_URL = "https://api.dev.sphera.work/api/v1"
+BASE_URL = os.getenv("BASE_URL_API")
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"
 SIGN_IN = BASE_URL + "/auth/sign-in"
-DEVICE_ID_FIRST_USER = os.getenv("DEVICE_ID_FIRST_DEV")
-DEVICE_ID_SECOND_USER = os.getenv("DEVICE_ID_SECOND_DEV")
+DEVICE_ID_FIRST_USER = os.getenv("DEVICE_ID_FIRST")
+DEVICE_ID_SECOND_USER = os.getenv("DEVICE_ID_SECOND")
 class WebSocket(Authorization):
     def __init__(self):
         super().__init__()

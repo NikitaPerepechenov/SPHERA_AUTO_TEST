@@ -8,10 +8,10 @@ from selenium.webdriver.support import expected_conditions as EC
 
 load_dotenv()
 
-BASE_URL = os.getenv("BASE_URL_API_DEV")
+BASE_URL = os.getenv("BASE_URL_API")
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"
 SIGN_IN = BASE_URL + "/auth/sign-in"
-DEVICE_ID = os.getenv("DEVICE_ID_FIRST_DEV")
+DEVICE_ID = os.getenv("DEVICE_ID_FIRST")
 
 logger = Logger()
 

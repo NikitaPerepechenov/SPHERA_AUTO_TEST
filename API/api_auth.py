@@ -3,10 +3,10 @@ import json
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv('.env_dev')
 
 
-BASE_URL = os.getenv("BASE_URL_API_DEV")
+BASE_URL = os.getenv("BASE_URL_API")
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"
 SIGN_IN = BASE_URL + "/auth/sign-in"
 
@@ -22,7 +22,7 @@ class AuthorizationApi():
         response = requests.post(CHECK_AND_SEND, json=self.auth.check_and_send_payload)
         assert response.status_code == 200, "Ошибка в check-and-send запросе"
 
-        headers = {"Device-id": os.getenv("DEVICE_ID_SECOND_DEV")}
+        headers = {"Device-id": os.getenv("DEVICE_ID_SECOND")}
         response = requests.post(SIGN_IN, json=self.auth.sign_in, headers=headers)
         assert response.status_code == 200, "Ошибка в sign-in запросе"
 
@@ -35,7 +35,7 @@ class AuthorizationApi():
         response = requests.post(CHECK_AND_SEND, json=self.auth.check_and_send_payload)
         assert response.status_code == 200, "Ошибка в check-and-send запросе"
 
-        headers = {"Device-id": os.getenv("DEVICE_ID_SECOND_DEV")}
+        headers = {"Device-id": os.getenv("DEVICE_ID_SECOND")}
         response = requests.post(SIGN_IN, json=self.auth.sign_in, headers=headers)
         assert response.status_code == 200, "Ошибка в sign-in запросе"
 
