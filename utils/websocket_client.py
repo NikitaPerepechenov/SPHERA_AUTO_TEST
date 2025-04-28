@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 import os
 
 
-load_dotenv('.env_dev')
+load_dotenv()
 
 sio = socketio.Client()
 logger = Logger()

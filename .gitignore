@@ -2,4 +2,4 @@ __pycache__/
 */__pycache__/
 .venv
 .pytest_cache
-.env_dev
+.env
