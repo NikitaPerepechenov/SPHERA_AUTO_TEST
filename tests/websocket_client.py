@@ -1,22 +1,21 @@
 import socketio
 import json
 import os 
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 from datetime import datetime
 from utils.logger import Logger
 from API.api_auth import Authorization
 
-dotenv_values(".env.dev")
-config = dotenv_values(".env.dev")
+load_dotenv(".env.dev")
 sio = socketio.Client()
 logger = Logger()
 
 
-BASE_URL = config.get("BASE_URL_API")
+BASE_URL = os.getenv("BASE_URL_API")
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"
 SIGN_IN = BASE_URL + "/auth/sign-in"
-DEVICE_ID_FIRST_USER = config.get("DEVICE_ID_FIRST")
-DEVICE_ID_SECOND_USER = config.get("DEVICE_ID_SECOND")
+DEVICE_ID_FIRST_USER = os.getenv("DEVICE_ID_FIRST")
+DEVICE_ID_SECOND_USER = os.getenv("DEVICE_ID_SECOND")
 class WebSocket(Authorization):
     def __init__(self):
         super().__init__()

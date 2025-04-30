@@ -1,18 +1,18 @@
 import os
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 from utils.logger import Logger
 from selenium.common import TimeoutException
 from utils.main_page_locators import LocatorsMainPage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-dotenv_values()
-config = dotenv_values(".env.dev")
+load_dotenv
 
-BASE_URL = config.get("BASE_URL_API")
+
+BASE_URL = os.getenv("BASE_URL_API")
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"
 SIGN_IN = BASE_URL + "/auth/sign-in"
-DEVICE_ID = config.get("DEVICE_ID_FIRST")
+DEVICE_ID = os.getenv("DEVICE_ID_FIRST")
 
 logger = Logger()
 

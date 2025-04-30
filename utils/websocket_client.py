@@ -5,16 +5,16 @@ from API.payloads import AuthorizationPayloadReceiver
 from utils.logger import Logger
 from API.api_auth import AuthorizationApi
 import os
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 
-dotenv_values(".env.dev")
-config = dotenv_values(".env.dev")
+load_dotenv(".env.dev")
+
 
 sio = socketio.Client()
 logger = Logger()
 
 
-BASE_URL = config.get("BASE_URL_API")
+BASE_URL = os.getenv("BASE_URL_API")
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"
 SIGN_IN = BASE_URL + "/auth/sign-in"
 
