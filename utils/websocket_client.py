@@ -63,7 +63,7 @@ class WebSocket(AuthorizationApi):
                 auth={
                     'auth_token': self.auth_token,
                     'token': self.refresh_token,
-                    'deviceId': config.get("DEVICE_ID_SECOND"),
+                    'deviceId': os.getenv("DEVICE_ID_SECOND"),
                     'activeCompanies': '[]'
                 }
             )
