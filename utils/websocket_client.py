@@ -7,7 +7,7 @@ from API.api_auth import AuthorizationApi
 import os
 from dotenv import load_dotenv
 
-load_dotenv(".env.dev")
+load_dotenv(".env.dev", override=True)
 
 
 sio = socketio.Client()

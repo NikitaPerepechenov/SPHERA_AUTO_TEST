@@ -1,6 +1,8 @@
 import os
 from faker import Faker
+from dotenv import load_dotenv
 
+load_dotenv(".env.dev", override=True)
 
 fake = Faker('ru_RU')
 

@@ -3,8 +3,7 @@ import json
 from dotenv import load_dotenv
 import os
 
-load_dotenv(".env.dev")
-
+load_dotenv(".env.dev", override=True)
 
 BASE_URL = os.getenv("BASE_URL_API")
 CHECK_AND_SEND = BASE_URL + "/auth/email/check-and-send"

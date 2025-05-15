@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-load_dotenv(".env.dev")
+load_dotenv(".env.dev", override=True)
 
 def create_driver():
     options = Options()
@@ -40,6 +40,7 @@ def browser():
 
 @pytest.fixture(scope="function")
 def browser_1():
+    print("📌 browser_1: URL_SPHERA =", os.getenv("URL_SPHERA"))
     driver, user_data_dir = create_driver()
     driver.get(os.getenv("URL_SPHERA"))
     driver.maximize_window()

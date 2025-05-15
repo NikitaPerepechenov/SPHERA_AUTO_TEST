@@ -6,7 +6,7 @@ from utils.main_page_locators import LocatorsMainPage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-load_dotenv(".env.dev")
+load_dotenv(".env.dev", override=True)
 
 
 BASE_URL = os.getenv("BASE_URL_API")

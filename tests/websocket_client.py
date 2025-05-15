@@ -6,7 +6,7 @@ from datetime import datetime
 from utils.logger import Logger
 from API.api_auth import Authorization
 
-load_dotenv(".env.dev")
+load_dotenv(".env.dev", override=True)
 sio = socketio.Client()
 logger = Logger()
 
