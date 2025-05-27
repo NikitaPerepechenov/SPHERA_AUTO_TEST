@@ -1,6 +1,8 @@
 import os
 import uuid
 import shutil
+import random
+import string
 import pytest
 import tempfile
 from dotenv import load_dotenv
@@ -57,3 +59,8 @@ def browser_2():
     yield driver
     driver.quit()
     shutil.rmtree(user_data_dir)
+
+@pytest.fixture(scope="session")
+def generate_random_string(length=8):
+    letters_and_digits = string.ascii_letters + string.digits
+    return ''.join(random.choice(letters_and_digits) for _ in range(length))
