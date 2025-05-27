@@ -1,15 +1,10 @@
 import pytest
-import random
-import string
 from faker import Faker
 from pages.user_profile_page import UserProfile
 
 fake = Faker('ru_RU')
 
 
-def generate_random_string(length=8):
-    letters_and_digits = string.ascii_letters + string.digits
-    return ''.join(random.choice(letters_and_digits) for _ in range(length))
 
 @pytest.mark.u
 def test_07_open_user_profile_and_redact_info(browser): # Передаем фикстуру browser
@@ -19,24 +14,14 @@ def test_07_open_user_profile_and_redact_info(browser): # Передаем фи�
     last_name = fake.last_name()# Генерация рандомной Фамилии пользователя
     first_name = fake.first_name()# Генерация рандомного Имени пользователя
     surname = fake.middle_name_male() # Генерация рандомного Отчества пользователя
-    info = generate_random_string(10) # Генерация рандомной информации в поле О себе
+    info = fake.text() # Генерация рандомной информации в поле О себе
     
-    user.open_user_profile_modal_window() # Клик по аватарке пользователя в Хедере приложения
-    user.open_user_settings_in_modal_window() # В появившемся модальном окне клик по 'Настройки пользователя'
+    user.open_user_profile_modal_window().open_user_settings_in_modal_window()
     
-    user.edit_information_button() # В открывшейся странице профиля пользователя нажатие по кнопке редактирования личной информации
-    user.user_last_name_field(last_name) # Очистка и ввод рандомной Фамилии
-    user.user_first_name_field(first_name) # Очистка и ввод рандомного Имени
-    user.user_surname_field(surname) # Очистка и ввод рандомного Отчества
-    user.gender_male_radio_button() # Нажатие по радио-кнопке выбора Мужского пола
-    user.user_info_field(info) # Заполнение поля О себе
-    user.user_date_of_birth() # Выбор месяца Февраль и рандомного дня в плагине календаря
+    user.edit_information_button().user_last_name_field(last_name).user_first_name_field(first_name).user_surname_field(surname)
+    user.gender_male_radio_button().user_info_field(info).user_date_of_birth().save_button()
     
-    user.save_button() # Сохранение заполненой информации
-    
-    user.check_last_name(last_name) # Проверка валидации поля Фамилия
-    user.check_first_name(first_name) # Проверка валидации поля Имя
-    user.check_surname(surname) # Проверка валидации поля Отчество
-    user.check_radio_button_gender_male() # Проверка валидации радио-кнопки
-    user.check_info(info) # Проверка валидации поля О себе
+    user.check_last_name(last_name).check_first_name(first_name).check_surname(surname).check_radio_button_gender_male().check_info(info)
+    # Проверка валидации полей профиля
+
     

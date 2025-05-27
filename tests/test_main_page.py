@@ -7,14 +7,10 @@ fake = Faker('ru_RU')
 email = "qa1@fusion.ru"
 code = "654321"
 
-@pytest.mark.s
+@pytest.mark.u
 def test_02_authorization(browser):
     auth_page = AuthorizationPage(browser)
-    auth_page.email_field(email) # Ввод email
-    auth_page.submit_button() # Нажатие кнопки 'Получить код'
-    auth_page.one_time_code(code) # Ввод одноразового кода
-    auth_page.enter_workspace()
-    auth_page.enter_space_button() # Вход в пространство 
+    auth_page.email_field(email).submit_button().one_time_code(code).enter_workspace().enter_space_button()
 
 @pytest.mark.s
 def test_03_create_channel_write_message_delete_channel(browser):  # Передаем фикстуру browser    
@@ -24,22 +20,14 @@ def test_03_create_channel_write_message_delete_channel(browser):  # Перед�
     info_channel = fake.word() + "-" + fake.word()
     random_message_text = fake.sentence()
 
-    main.decline_notifications() 
-    main.create_channel_button() # Нажатие кнопки 'Создать канал'
-    main.enter_name_channel(name_channel) # Ввод названия канала
-    main.channel_info(info_channel) # Ввод описания канала
-    main.channel_creation_confirmation_button() # Нажатие кнопки 'продолжить' после заполнения всех обязательных полей после создания канала
-    
+    main.decline_notifications().create_channel_button().enter_name_channel(name_channel).channel_info(info_channel).channel_creation_confirmation_button() 
+
     main.waiting_for_modal_window_to_close() # Ожидание закрытия модального окна
     
-    main.write_a_message(random_message_text) # Ввод сообщения в созданный канал
-    main.send_message() # Отправка сообщения в созданный канал
-    main.check_message(random_message_text) # Проверка отправки сообщения
+    main.write_a_message(random_message_text).send_message().check_message(random_message_text)
     
-    main.header_button_channel() # Вызов модального окна через название канала в хедере приложения
-    main.settings_tab_in_modal_window() # вкладка настройки в модальном окне
-    main.delete_channel() # Удаление канала
-    main.waiting_notifications_delete_close() # Ожидание закрытия уведомления об удалении канала
+    main.header_button_channel().settings_tab_in_modal_window().delete_channel().waiting_notifications_delete_close()
+
     # main.delete_channel_notifications_check() # Проверка уведомления об удалении канала
     main.check_channel_deleted(name_channel) # Проверка удаления канала из левого сайд бара
 
@@ -51,20 +39,12 @@ def test_04_create_channel_and_archive_channel(browser):
     name_channel = fake.word() + "-" + fake.word()
     info_channel = fake.word() + "-" + fake.word()
     
-    main.create_channel_button() # Нажатие кнопки 'Создать канал'
-    main.enter_name_channel(name_channel) # Ввод названия канала
-    main.channel_info(info_channel) # Ввод описания канала
-    main.channel_creation_confirmation_button() # Нажатие кнопки 'продолжить' после заполнения всех обязательных полей после создания канала
+    main.create_channel_button().enter_name_channel(name_channel).channel_info(info_channel).channel_creation_confirmation_button() # Нажатие кнопки 'Создать канал'
     
     main.waiting_for_modal_window_to_close() # Ожидание закрытия модального окна
     
-    main.header_button_channel() # Вызов модального окна через название канала в хедере приложения
-    main.settings_tab_in_modal_window() # вкладка настройки в модальном окне
-    main.archive_channel() # Архивирование канала
-    main.archive_channel_notifications_check() # Проверка уведомления об архивировании канала
-    main.button_all_archive_channels() # Открытие вкладки Архив 
-    main.archive_channel_check(name_channel) # Проверка заархивированного канала 
-    main.main_logo()
+    main.header_button_channel().settings_tab_in_modal_window().archive_channel().archive_channel_notifications_check().button_all_archive_channels().archive_channel_check(name_channel).main_logo()
+
  
 @pytest.mark.s
 def test_05_enter_random_channel_write_message_edit_reply_and_delete_message(browser):
