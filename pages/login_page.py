@@ -25,6 +25,7 @@ class AuthorizationPage(BasePage):
         except Exception as e:
             logger.error(f"Не удалось ввести email: {email},  {e}")
             raise Exception(f"Не удалось ввести email: {email},  {e}")
+        return self
 
     def submit_button(self):
         """Клик по кнопке 'Войти'"""
@@ -36,6 +37,7 @@ class AuthorizationPage(BasePage):
             logger.info("Кнопка 'Войти' нажата")
         except Exception as e:
             raise logger.error(f"Не удалось нажать кнопку 'Войти': {e}")
+        return self
 
     def one_time_code(self, code):
         """Ввод одноразового кода"""
@@ -47,6 +49,7 @@ class AuthorizationPage(BasePage):
             logger.info(f"Код: {code} введен")
         except Exception as e:
             raise logger.error(f"Не удалось ввести код: {code},  {e}")
+        return self
 
     def enter_space_button(self):
         """Клик по кнопке 'Войти'"""
@@ -59,6 +62,7 @@ class AuthorizationPage(BasePage):
         except Exception as e:
             logger.error(f"Не удалось нажать кнопку 'Войти': {e}")
             raise Exception (f"Не удалось нажать кнопку 'Войти': {e}")
+        return self
         
 
     def enter_workspace(self):
@@ -72,6 +76,7 @@ class AuthorizationPage(BasePage):
             logger.info("Рабочее пространство 2 выбрано")
         except Exception as e:
             logger.error(f"Не удалось выбрать рабочее пространство: {e}")
+        return self
     
 
     def test_invalid_emails(self, invalid_emails):

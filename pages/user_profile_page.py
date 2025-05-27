@@ -57,6 +57,7 @@ class UserProfile(BasePage):
             logger.info(' Модальное окно успешно открыто')
         except Exception as e:
             raise logger.error(f"Не удалось нажать по аватару пользователя в хедере приложения {e}")
+        return self
             
 
 
@@ -72,6 +73,7 @@ class UserProfile(BasePage):
             logger.info("Успешное нажатие по кнопке 'Настройки пользователя' ")
         except Exception as e:
             raise logger.error(f"Не удалось нажать на кнопку 'Настройки пользователя' {e}")
+        return self
             
 
 
@@ -85,6 +87,7 @@ class UserProfile(BasePage):
             logger.info("Успешное нажатие кнопки редактирования информации")
         except Exception as e:
             raise logger.error(f"Не удалось нажать кнопку редактирования информации {e}")
+        return self
             
 
     def user_last_name_field(self, last_name):
@@ -107,6 +110,7 @@ class UserProfile(BasePage):
 
         except Exception as e:
             raise logger.error(f"Не удалось заполнить поле 'Фамилия': {e}")
+        return self
             
 
 
@@ -128,6 +132,7 @@ class UserProfile(BasePage):
 
         except Exception as e:
             raise logger.error(f"Не удалось заполнить поле 'Имя': {e}")
+        return self
             
 
     def user_surname_field(self, surname):
@@ -148,6 +153,7 @@ class UserProfile(BasePage):
 
         except Exception as e:
             raise logger.error(f"Не удалось заполнить поле 'Имя': {e}")
+        return self
             
 
     def gender_male_radio_button(self):
@@ -161,6 +167,7 @@ class UserProfile(BasePage):
             logger.info(" Радио-кнопка выбора мужского пола нажата ")
         except Exception as e:
             raise logger.error(" Радио-кнопка выбора мужского пола не нажата ")
+        return self
             
 
 
@@ -188,6 +195,7 @@ class UserProfile(BasePage):
             logger.info(" Поле О себе успешно заполнено ")
         except Exception as e:
             raise logger.error(f"Не удалось отредактировать поле О себе {e}")
+        return self
             
 
     
@@ -217,6 +225,7 @@ class UserProfile(BasePage):
             logger.info("Рандомная дата рождения успешно выбрана через плагин календаря")
         except Exception as e:
             raise logger.error(f"Не удалось выбрать дату рождения через плагин календаря {e}")
+        return self
             
 
 
@@ -242,6 +251,7 @@ class UserProfile(BasePage):
             self._check_field(self.loc.LAST_NAME_ASSERT, last_name, "Фамилия")
         except Exception as e:
             raise logger.error(f"Не удалось проверить поле 'Фамилия' {e}")
+        return self
             
 
     def check_first_name(self, first_name):
@@ -251,7 +261,7 @@ class UserProfile(BasePage):
             self._check_field(self.loc.FIRST_NAME_ASSERT, first_name, "Имя")
         except Exception as e:
             raise logger.error(f"Не удалось проверить поле 'Имя' {e}")
-            
+        return self
 
 
     def check_surname(self, surname):
@@ -261,7 +271,7 @@ class UserProfile(BasePage):
             self._check_field(self.loc.SURNAME_ASSERT, surname, "Отчество")
         except Exception as e:
             raise logger.error(f"Не удалось проверить поле 'Отчество' {e}")
-            
+        return self        
 
 
     def check_info(self, info):
@@ -271,7 +281,7 @@ class UserProfile(BasePage):
             self._check_field(self.loc.USER_INFO_ASSERT, info, "О себе")
         except Exception as e:
             raise logger.error(f"Не удалось проверить поле 'О себе' {e}")
-            
+        return self    
 
     def check_radio_button_gender_male(self):
         """ Проверка успешного сохранении информации 
@@ -285,7 +295,7 @@ class UserProfile(BasePage):
             logger.info("Проверка валидации радио-кнопки мужского пола успешна")
         except Exception as e:
             raise logger.error(f"Проверка валидации радио-кнопки мужского пола НЕ успешна {e}")
-        
+        return self
 
 
     def redact_company_info(self):

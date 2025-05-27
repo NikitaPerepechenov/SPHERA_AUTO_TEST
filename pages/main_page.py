@@ -49,7 +49,7 @@ class MainPage(BasePage):
             logger.info("Кнопка 'Создать канал' нажата")
         except Exception as e:
             raise logger.error(f"Не удалось нажать кнопку 'Создать канал': {e}")
-    
+        return self
     
     def enter_name_channel(self, name_channel):
         """ Создание канала и ввод его названия. """
@@ -69,7 +69,7 @@ class MainPage(BasePage):
             )
             channel_name_field.send_keys(name_channel)
             logger.info(f"Название канала '{name_channel}' введено")
-            
+            return self
 
 
     def channel_info(self, info_channel):
@@ -84,7 +84,7 @@ class MainPage(BasePage):
             logger.info(f"Описание канала '{info_channel}' введено")
         except Exception as e:
             logger.error(f"Не удалось ввести описание канала {e}")
-
+        return self
 
     def channel_creation_confirmation_button(self):
         """ Подтверждение создания канала """
@@ -99,6 +99,7 @@ class MainPage(BasePage):
             logger.info("Канал успешно создан")
         except Exception as e:
             logger.error(f"Канал не создан {e}")
+        return self
 
     def header_button_channel(self):
         """ Клик по названию канала вызывающий модальное окно c информацией o канале и настройками """
@@ -111,7 +112,7 @@ class MainPage(BasePage):
             logger.info("Успешное нажатие по названию канала в хедере приложения")
         except Exception as e:
             raise logger.error(f"Не удалось нажать на название канала в хедере приложения: {e}")
-
+        return self
 
 
     def settings_tab_in_modal_window(self):
@@ -125,7 +126,7 @@ class MainPage(BasePage):
             logger.info("Успешное нажатие по вкладке настройки в модальном окне канала")
         except Exception as e:
             raise logger.error(f"Не удалось нажать на вкладку настройки в модальном окне канала: {e}")
-
+        return self
 
     def delete_channel(self):
         """Удаление канала."""
@@ -149,7 +150,7 @@ class MainPage(BasePage):
             self.invis_of_element(self.locators.CONFIRM_DELETE_BUTTON)
         except Exception as e:
             raise logger.error(f"Не удалось удалить канал: {e}")
-
+        return self
 
     def archive_channel(self):
         """ Архивирование канала."""
@@ -164,7 +165,7 @@ class MainPage(BasePage):
             logger.info("Канал успешно архивирован")
         except Exception as e:
             raise logger.error(f"He удалось архивировать канал: {e}")
-
+        return self
 
 
     def button_all_archive_channels(self):
@@ -182,7 +183,7 @@ class MainPage(BasePage):
             logger.info("Успешное нажатие по кнопке 'Архив'")
         except Exception as e:
             raise logger.error(f"Не удалось нажать по кнопке 'Архив': {e}")
-
+        return self
 
 
 
@@ -191,6 +192,7 @@ class MainPage(BasePage):
         self.visibility_of_element(
             self.locators.MAIN_LOGO
         ).click()
+        return self
 
 
 
@@ -200,13 +202,14 @@ class MainPage(BasePage):
         self.invis_of_element(
                 self.locators.MODAL_WINDOW
         )
+        return self
 
     def waiting_notifications_delete_close(self):
         """ Ожидание закрытия модального окна удаления """
         self.invis_of_element(
             self.locators.DELETE_CONFIRMATION_MESSAGE
         )
-
+        return self
 
 
     def write_a_message(self, random_message_text):
@@ -221,6 +224,7 @@ class MainPage(BasePage):
             
         except Exception as e:
             raise logger.error(f"Не удалось отправить сообщение: {random_message_text},  {e}")
+        return self
 
 
 
@@ -343,6 +347,7 @@ class MainPage(BasePage):
             logger.info("Сообщение отправлено")
         except Exception as e:
             raise logger.error(f"Сообщение не отправлено")
+        return self
 
     def send_message_user(self, random_message_text):
         """ Кнопка отправки сообщения """
@@ -514,6 +519,7 @@ class MainPage(BasePage):
             logger.info("Кнопка 'Отклонить уведомления' нажата")
         except Exception as e:
             raise logger.error(f"Не удалось нажать кнопку 'Отклонить уведомления': {e}")
+        return self
 
 
     def create_message(self):
@@ -567,7 +573,6 @@ class MainPage(BasePage):
             if not channels or not any(ch.text == channel_name for ch in channels):
                 logger.info(f"Канал '{channel_name}' удален")
                 return True
-                
         
         logger.error(f"Ошибка: канал '{channel_name}' не удален")
         return False
@@ -635,7 +640,7 @@ class MainPage(BasePage):
 
         except Exception as e:
             raise logger.error(f"Не удалось проверить архивирование канала: {name_channel}, {e}")
-
+        return self
 
     def archive_channel_notifications_check(self):
         """Проверка уведомления об архивировании канала"""
@@ -647,7 +652,7 @@ class MainPage(BasePage):
             self.invis_of_element(self.locators.DELETE_CONFIRMATION_MESSAGE)
         except Exception as e:
             logger.error(f"Не удалось проверить уведомление об архивировании канала: {e}")
-
+        return self
 
 
     def delete_channel_notifications_check(self):
@@ -683,6 +688,7 @@ class MainPage(BasePage):
                 message.text == random_message_text
         
             ), ">>> Message assert ERROR, second try, message not found<<<"
+            return self
 
     def check_last_send_message(self, random_message_text):
         self.scroll_chat_to_bottom_instantly()
