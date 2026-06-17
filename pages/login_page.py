@@ -3,7 +3,7 @@ from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 from utils.locators_auth_page import AuthorizationLocators
 from selenium.webdriver.common.action_chains import ActionChains
-import time
+
 
 logger = Logger()
 

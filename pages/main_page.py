@@ -1,4 +1,3 @@
-import time
 import random
 from utils.logger import Logger
 from pages.base_page import BasePage
